@@ -3,16 +3,14 @@ project(BasicSimulation)
 
 # Add source files
 file(GLOB_RECURSE SOURCE_FILES
-    ${CMAKE_SOURCE_DIR}/../Engine/*.c
-    ${CMAKE_SOURCE_DIR}/../Engine/*.cpp
     ${CMAKE_SOURCE_DIR}/../Engine/core/*.cpp
+    ${CMAKE_SOURCE_DIR}/../Engine/interface/*.cpp
     ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 # Add header files
 file(GLOB_RECURSE HEADER_FILES
-    ${CMAKE_SOURCE_DIR}/../Engine/headers/*.h
-    ${CMAKE_SOURCE_DIR}/../Engine/headers/*.hpp
-    ${CMAKE_SOURCE_DIR}/../Engine/headers/core/*.hpp)
+    ${CMAKE_SOURCE_DIR}/../Engine/core/headers/*.hpp
+    ${CMAKE_SOURCE_DIR}/../Engine/interface/*.hpp)
 
 
 set(SDL2_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/../include")

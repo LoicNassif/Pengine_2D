@@ -1,9 +1,14 @@
-#include "../Engine/core/headers/engine.hpp"
+#include "../Engine/interface/config.hpp"
+
 #include <iostream>
 
 int main()
 {
     Engine e;
+
+    /* Pre start up configurations */
+    pe::setWindowDimensions(e, 1000, 500);
+    pe::setWindowColor(e, Color::black);
 
     e.startUp();
 

@@ -2,56 +2,65 @@
 #include <SDL.h>
 #undef main
 
-class WindowManager {
-    public:
-        WindowManager() {};
-        ~WindowManager() {};
+enum class Color { white, black };
 
-        // Window manager start-up
-        void startUp();
+class WindowManager
+{
+public:
+    WindowManager(){};
+    ~WindowManager(){};
 
-        // Window manager shut-down
-        void shutDown();
+    // Window manager start-up
+    void startUp();
 
-        // Render functions
-        void render();
-        void update(SDL_Event &e);
+    // Window manager shut-down
+    void shutDown();
 
-        // Getters
-        inline bool getStatus() { return mStatus; }
-        inline int getWindowWidth() { return mWidth; }
-        inline int getWindowHeight() { return mHeight; }
+    // Render functions
+    void render();
+    void update(SDL_Event &e);
 
-    private:
-        // shut down flag
-        bool mStatus = true;
+    // Getters
+    inline bool getStatus() { return mStatus; }
+    inline int getWindowWidth() { return mWidth; }
+    inline int getWindowHeight() { return mHeight; }
 
-        // Handle window events
-        void handleEvent(const SDL_Event &e);
+    // Setters
+    inline void setWindowWidth(int w) { mWidth = w; }
+    inline void setWindowHeight(int h) { mHeight = h; }
+    inline void setWindowColor(Color&& c) { mColor = c; }
 
-        // Create the window
-        bool initWindow(const char *title, int screen_width, int screen_height, bool shown);
+private:
+    // shut down flag
+    bool mStatus = true;
 
-        // Create renderer
-        bool createRenderer();
+    // Handle window events
+    void handleEvent(const SDL_Event &e);
 
-        // Focus on window
-        void focus();
+    // Create the window
+    bool initWindow(const char *title, int screen_width, int screen_height, bool shown);
 
-        // Window focii
-        inline bool hasMouseFocus();
-        inline bool hasKeyboardFocus();
+    // Create renderer
+    bool createRenderer();
 
-        // Window Data
-        SDL_Window *mWindow;
-        SDL_Renderer *mRenderer;
-        int mWindowID;
+    // Focus on window
+    void focus();
 
-        // Window dimensions
-        int mWidth;
-        int mHeight;
+    // Window focii
+    inline bool hasMouseFocus();
+    inline bool hasKeyboardFocus();
 
-        // Window focii
-        bool mMouseFocus;
-        bool mKeyboardFocus;
+    // Window Data
+    SDL_Window *mWindow;
+    SDL_Renderer *mRenderer;
+    int mWindowID;
+
+    // Window dimensions
+    int mWidth = 300;
+    int mHeight = 300;
+    Color mColor = Color::white;
+
+    // Window focii
+    bool mMouseFocus;
+    bool mKeyboardFocus;
 };

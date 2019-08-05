@@ -2,9 +2,11 @@
 #include <SDL.h>
 #undef main
 
+#include "windowManager.hpp"
+
 class Engine {
     public:
-        Engine() {};
+        Engine();
         ~Engine() {};
 
         // Do not allow copy semantics
@@ -19,4 +21,10 @@ class Engine {
 
         // Engine run
         void run();
+
+        // Getters
+        inline WindowManager* getWindowManager() const { return mWindowManager; } 
+
+    private:
+        WindowManager *mWindowManager;
 };

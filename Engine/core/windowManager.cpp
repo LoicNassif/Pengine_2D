@@ -3,7 +3,7 @@
 
 void WindowManager::startUp() {
     // TODO: change these hardcoded values
-    initWindow("test", 300, 300, true);
+    initWindow("test", mWidth, mHeight, true);
     createRenderer();
 }
 
@@ -16,7 +16,11 @@ void WindowManager::shutDown() {
 
 void WindowManager::render() {
     // Clear screen
-    SDL_SetRenderDrawColor(mRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    if (mColor == Color::black)
+        SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0xFF);
+    else
+        SDL_SetRenderDrawColor(mRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
     SDL_RenderClear(mRenderer);
 
     SDL_RenderPresent(mRenderer);
