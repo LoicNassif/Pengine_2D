@@ -26,8 +26,8 @@ void elastic_collision(Circle* a, Circle* b) {
     double Ay = m_a * v_a.y + m_b * v_b.y;
     double By = 0.5 * m_a * v_a.y * v_a.y + 0.5 * m_b * v_b.y * v_b.y;
     double sqrt_dy = std::sqrt(m_a * m_b * (2 * m_a * By + 2 * m_b * By - Ay * Ay));
-    double vy_a = (Ay * m_a - sqrt_dy) / (m_a * (m_a + m_b));
-    double vy_b = (Ay * m_b + sqrt_dy) / (m_b * (m_a + m_b));
+    double vy_a = (Ay * m_a + sqrt_dy) / (m_a * (m_a + m_b));
+    double vy_b = (Ay * m_b - sqrt_dy) / (m_b * (m_a + m_b));
     a->setYVel(vy_a); b->setYVel(vy_b);
 }
 
@@ -78,7 +78,7 @@ void Circle::move(const Vec2<int> &distance, int width, int height, const std::v
         if (this != s) { 
             if (detect_circle_collisions(this, static_cast<Circle*>(s))) {
                 // Elastic collision FIX TODO
-                // elastic_collision(this, static_cast<Circle*>(s));
+                elastic_collision(this, static_cast<Circle*>(s));
 
                 /* very basic collision system, need to replace */
                 // mv.x = -mv.x; mv.y = -mv.y;
