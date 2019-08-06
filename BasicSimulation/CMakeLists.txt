@@ -17,6 +17,7 @@ file(GLOB_RECURSE HEADER_FILES
 
 
 set(SDL2_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/../include")
+set(NLOHMANN_INCLUDE_DIRS "${CMAKE_CURRENT_LIST_DIR}/../include/nlohmann")
 
 # Support both 32 and 64 bit builds
 if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
@@ -27,7 +28,7 @@ endif ()
 
 string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
 
-include_directories(${SDL2_INCLUDE_DIRS})
+include_directories(${SDL2_INCLUDE_DIRS} ${NLOHMANN_INCLUDE_DIRS})
 
 add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
