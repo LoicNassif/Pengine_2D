@@ -3,9 +3,8 @@
 ## August 6th, 2019
 
 ### Implemented
-- Nothing
+- JSON filesystem for objects
 
 ### Near Future Features
-- JSON filesystem for objects
 - Gravity
 - User mouse control for objects
