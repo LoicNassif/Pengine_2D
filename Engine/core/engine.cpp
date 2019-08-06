@@ -15,7 +15,7 @@ void Engine::startUp() {
 void Engine::run() {
     SDL_Event e;
     bool shutDownFlag = false;
-
+    
     // main loop
     std::cout << "\t engine running" << std::endl;
     while(!shutDownFlag) {

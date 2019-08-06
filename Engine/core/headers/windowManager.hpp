@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL.h>
 #undef main
+#include <vector>
+#include "../../renderer/headers/shape.hpp"
 
 enum class Color { white, black };
 
@@ -24,11 +26,15 @@ public:
     inline bool getStatus() { return mStatus; }
     inline int getWindowWidth() { return mWidth; }
     inline int getWindowHeight() { return mHeight; }
+    inline SDL_Renderer* getRenderer() { return mRenderer; }
 
     // Setters
     inline void setWindowWidth(int w) { mWidth = w; }
     inline void setWindowHeight(int h) { mHeight = h; }
     inline void setWindowColor(Color&& c) { mColor = c; }
+
+    // Object list
+    std::vector<Shape *> objects;
 
 private:
     // shut down flag

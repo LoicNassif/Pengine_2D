@@ -1,5 +1,6 @@
 #pragma once
 #include "../core/headers/engine.hpp"
+#include "../renderer/headers/circle.hpp"
 #include <utility>
 
 namespace pe {
@@ -10,5 +11,9 @@ namespace pe {
 
     void setWindowColor(const Engine &e, Color&& c) {
         e.getWindowManager()->setWindowColor(std::move(c));
+    }
+
+    void pushShape(const Engine &e, Shape* s) {
+        e.getWindowManager()->objects.push_back(s);
     }
 }
