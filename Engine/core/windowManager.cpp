@@ -26,6 +26,11 @@ void WindowManager::render() {
     /* Render all objects */
     for (Shape *s : objects) {
         s->render(*mRenderer);
+
+        if (mDebug) {
+            /* Render the center for debug purposes */
+            SDL_RenderDrawPoint(mRenderer, s->getCenter().x, s->getCenter().y);
+        }
     }
 
     if (mColor == Color::black)
@@ -43,7 +48,7 @@ void WindowManager::update(SDL_Event& e) {
 
     /* Update all objects */
     for (Shape *s : objects) {
-        s->move(s->getVelocity(), mWidth, mHeight, objects);
+        s->move(mWidth, mHeight, objects);
     }
 }
 

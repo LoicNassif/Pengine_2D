@@ -32,11 +32,15 @@ public:
     inline void setWindowWidth(int w) { mWidth = w; }
     inline void setWindowHeight(int h) { mHeight = h; }
     inline void setWindowColor(Color&& c) { mColor = c; }
+    inline void setDebugMode(bool flag) { mDebug = flag; }
 
     // Object list
     std::vector<Shape *> objects;
 
 private:
+    // Debug mode flag
+    bool mDebug = false;
+
     // shut down flag
     bool mStatus = true;
 

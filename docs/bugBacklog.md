@@ -10,3 +10,4 @@
     - Need to test all directions/cases manually
 - Need error safeguards for window start-up
 - Code refactoring needed using a physics manager
+- Build a quadtree to localize and optimize physics computations

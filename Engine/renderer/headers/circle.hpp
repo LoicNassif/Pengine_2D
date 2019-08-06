@@ -11,7 +11,7 @@ class Circle : public Shape {
         void render(SDL_Renderer& renderer) const override;
 
         /* modifications */
-        void move(const Vec2<int> &distance, int width, int height, const std::vector<Shape *> &objs) override;
+        void move(int width, int height, const std::vector<Shape *> &objs) override;
         void rotate(int angle) override;
         void resize(int factor) override;
 

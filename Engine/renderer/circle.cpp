@@ -5,9 +5,11 @@ bool detect_circle_collisions(Circle* a, Circle* b) {
     Vec2<int> b_coord = b->getCenter();
     Vec2<int> a_coord = a->getCenter();
 
-    return ((b_coord.x - a_coord.x) * (b_coord.x - a_coord.x) 
-            + (b_coord.y - a_coord.y) * (b_coord.y - a_coord.y) 
-            <= (b->getRadius() + a->getRadius()) * (b->getRadius() + a->getRadius()));
+    int ub = (b->getRadius() + a->getRadius()) * (b->getRadius() + a->getRadius());
+//    int lb = (b->getRadius() - a->getRadius()) * (b->getRadius() - a->getRadius());
+    int intersec = (b_coord.x - a_coord.x) * (b_coord.x - a_coord.x) + (b_coord.y - a_coord.y) * (b_coord.y - a_coord.y);
+
+    return (intersec < ub);
 }
 
 void elastic_collision(Circle* a, Circle* b) {
@@ -26,8 +28,8 @@ void elastic_collision(Circle* a, Circle* b) {
     double Ay = m_a * v_a.y + m_b * v_b.y;
     double By = 0.5 * m_a * v_a.y * v_a.y + 0.5 * m_b * v_b.y * v_b.y;
     double sqrt_dy = std::sqrt(m_a * m_b * (2 * m_a * By + 2 * m_b * By - Ay * Ay));
-    double vy_a = (Ay * m_a + sqrt_dy) / (m_a * (m_a + m_b));
-    double vy_b = (Ay * m_b - sqrt_dy) / (m_b * (m_a + m_b));
+    double vy_a = (Ay * m_a - sqrt_dy) / (m_a * (m_a + m_b));
+    double vy_b = (Ay * m_b + sqrt_dy) / (m_b * (m_a + m_b)); 
     a->setYVel(vy_a); b->setYVel(vy_b);
 }
 
@@ -60,8 +62,21 @@ void Circle::render(SDL_Renderer& renderer) const {
     }
 }
 
-void Circle::move(const Vec2<int> &distance, int width, int height, const std::vector<Shape *>& objs) {
-    Vec2<int> newPos = mCenter + distance; 
+void Circle::move(int width, int height, const std::vector<Shape *>& objs) {
+    /* Check object contraints */
+    for (Shape *s : objs)
+    {
+        if (this != s)
+        {
+            if (detect_circle_collisions(this, static_cast<Circle *>(s)))
+            {
+                // Elastic collision FIX TODO
+                elastic_collision(this, static_cast<Circle *>(s));
+            }
+        }
+    }
+
+    Vec2<int> newPos = mCenter + mv; 
     /* Check wall constraints */
     if (newPos.x + mr < width && newPos.x - mr > 0 && newPos.y - mr > 0 && newPos.y + mr < height) {
         mCenter = newPos;
@@ -71,21 +86,6 @@ void Circle::move(const Vec2<int> &distance, int width, int height, const std::v
     }
     if (newPos.y + mr >= height || newPos.y - mr <= 0) {
         mv.y = -mv.y;
-    }
-
-    /* Check object contraints */
-    for (Shape *s : objs) {
-        if (this != s) { 
-            if (detect_circle_collisions(this, static_cast<Circle*>(s))) {
-                // Elastic collision FIX TODO
-                elastic_collision(this, static_cast<Circle*>(s));
-
-                /* very basic collision system, need to replace */
-                // mv.x = -mv.x; mv.y = -mv.y;
-                // s->setXVel(-s->getVelocity().x);
-                // s->setYVel(-s->getVelocity().y);
-            }
-        }
     }
 }
 

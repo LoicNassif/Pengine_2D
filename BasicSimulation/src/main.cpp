@@ -10,6 +10,7 @@ int main()
     // Window config
     pe::setWindowDimensions(e, 1000, 500);
     pe::setWindowColor(e, Color::black);
+    pe::setDEBUG(e); // paints the centers  
 
     // Objects config
     pe::processJSON(e, "../data/objects.json");
@@ -17,7 +18,7 @@ int main()
     /* Engine start up. Initializes all managers. */
     e.startUp();
 
-    /* Post start up configurations */
+    /* Post start up configurations (e.g. physics settings) */
     // TODO
 
     std::cout << "engine start-up completed." << std::endl;

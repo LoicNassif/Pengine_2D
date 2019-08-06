@@ -45,5 +45,9 @@ namespace pe {
                 }
             }
         }
+    }
+
+    void setDEBUG(const Engine &e) {
+        e.getWindowManager()->setDebugMode(true);
     } 
 }
