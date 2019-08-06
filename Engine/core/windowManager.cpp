@@ -20,14 +20,14 @@ void WindowManager::render() {
     if (mColor == Color::black) {
         SDL_SetRenderDrawColor(mRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
     } else {
-        SDL_SetRenderDrawColor(mRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0xFF);
     }
 
     /* Render all objects */
     for (Shape *s : objects) {
         s->render(*mRenderer);
     }
-    
+
     if (mColor == Color::black)
         SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0xFF);
     else
@@ -39,6 +39,11 @@ void WindowManager::render() {
 void WindowManager::update(SDL_Event& e) {
     while (SDL_PollEvent(&e) != 0) {
         handleEvent(e);
+    }
+
+    /* Update all objects */
+    for (Shape *s : objects) {
+        s->move(s->getVelocity(), mWidth, mHeight, objects);
     }
 }
 
