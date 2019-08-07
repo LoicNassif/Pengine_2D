@@ -18,11 +18,14 @@ class Shape {
 
         // Setters
         virtual void setCenter(const Vec2<int>& v) = 0;
+        virtual void setXCenter(int x) = 0;
+        virtual void setYCenter(int y) = 0;
         virtual void setXVel(int vx) = 0;
         virtual void setYVel(int vy) = 0;
 
         // Getters
         virtual Vec2<int> getCenter() const = 0;
         virtual Vec2<int> getVelocity() const = 0;
+        virtual int getRadius() const = 0; 
         virtual int getMass() const = 0;
 };

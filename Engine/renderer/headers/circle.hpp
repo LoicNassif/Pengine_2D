@@ -17,13 +17,15 @@ class Circle : public Shape {
 
         // Setters
         void setCenter(const Vec2<int> &v) override;
+        void setXCenter(int x) override {mCenter.x = x;}
+        void setYCenter(int y) override {mCenter.y = y;}
         void setXVel(int vx) override { mv.x = vx; }
         void setYVel(int vy) override { mv.y = vy; }
 
         // Getters
         Vec2<int> getCenter() const override;
         Vec2<int> getVelocity() const override;
-        int getRadius() const { return mr; }
+        int getRadius() const override { return mr; }
         int getMass() const override { return mMass; }
 
     private:

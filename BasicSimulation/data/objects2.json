@@ -1,0 +1,48 @@
+{
+    "objects": [{
+            "shape": "circle",
+            "size": 30,
+            "x_pos": 100,
+            "y_pos": 100,
+            "x_vel": 1,
+            "y_vel": 1,
+            "mass": 2
+        },
+        {
+            "shape": "circle",
+            "size": 10,
+            "x_pos": 900,
+            "y_pos": 400,
+            "x_vel": -4,
+            "y_vel": 1,
+            "mass": 1
+        },
+        {
+            "shape": "circle",
+            "size": 80,
+            "x_pos": 500,
+            "y_pos": 250,
+            "x_vel": -2,
+            "y_vel": -1,
+            "mass": 4
+        },
+        {
+            "shape": "circle",
+            "size": 30,
+            "x_pos": 210,
+            "y_pos": 50,
+            "x_vel": -1,
+            "y_vel": 1,
+            "mass": 2
+        },
+        {
+            "shape": "circle",
+            "size": 30,
+            "x_pos": 50,
+            "y_pos": 50,
+            "x_vel": 0,
+            "y_vel": -4,
+            "mass": 2
+        }
+    ]
+}

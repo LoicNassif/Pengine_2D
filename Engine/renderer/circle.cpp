@@ -1,12 +1,15 @@
 #include "./headers/circle.hpp"
 #include <cmath>
 
+/* TEST MOVE LATER */
+int dt = 2;
+
 bool detect_circle_collisions(Circle* a, Circle* b) {
     Vec2<int> b_coord = b->getCenter();
     Vec2<int> a_coord = a->getCenter();
 
     int ub = (b->getRadius() + a->getRadius()) * (b->getRadius() + a->getRadius());
-//    int lb = (b->getRadius() - a->getRadius()) * (b->getRadius() - a->getRadius());
+    int lb = (b->getRadius() - a->getRadius()) * (b->getRadius() - a->getRadius());
     int intersec = (b_coord.x - a_coord.x) * (b_coord.x - a_coord.x) + (b_coord.y - a_coord.y) * (b_coord.y - a_coord.y);
 
     return (intersec < ub);
@@ -68,23 +71,83 @@ void Circle::move(int width, int height, const std::vector<Shape *>& objs) {
     {
         if (this != s)
         {
-            if (detect_circle_collisions(this, static_cast<Circle *>(s)))
+            while (detect_circle_collisions(this, static_cast<Circle *>(s)))
             {
-                // Elastic collision FIX TODO
                 elastic_collision(this, static_cast<Circle *>(s));
+                Vec2<int> sNewPos = s->getCenter() + s->getVelocity() * dt;
+                if (sNewPos.x + mr < width && sNewPos.x - mr > 0 && sNewPos.y - mr > 0 && sNewPos.y + mr < height)
+                {
+                    s->setCenter(sNewPos);
+                }
+                mCenter = mCenter + mv*dt;
+                while (detect_circle_collisions(this, static_cast<Circle *>(s))) {
+                    if (s->getCenter().x >= mCenter.x) { // On the right
+                        mCenter.x--;
+                    } else { // On the left
+                        mCenter.x++;
+                    }
+                    if (s->getCenter().y >= mCenter.y) { // On the bottom
+                        mCenter.y--;
+                    } else { // On the top
+                        mCenter.y++;
+                    }
+                }
+            }
+            int sRadius = s->getRadius(); 
+            if (s->getCenter().x + sRadius >= width)
+            { // right boundary
+                int rb = s->getCenter().x - sRadius - 2; 
+                s->setXCenter(rb);
+            }
+            if (s->getCenter().x - sRadius <= 0)
+            { // left boundary
+                int lb = s->getCenter().x + sRadius + 2;
+                s->setXCenter(lb);
+            }
+            if (s->getCenter().y + sRadius >= height)
+            { // bottom boundary
+                int bb = s->getCenter().y - sRadius - 2;
+                s->setXCenter(bb);
+            }
+            if (s->getCenter().y - sRadius <= 0)
+            { // top boundary
+                int tb = s->getCenter().y + sRadius + 2;
+                s->setXCenter(tb);
+            }
+            if (s->getCenter().x + s->getRadius() >= width || s->getCenter().x - s->getRadius() <= 0)
+            {
+                s->setXVel(-s->getVelocity().x);
+            }
+            if (s->getCenter().y + s->getRadius() >= height || s->getCenter().y - s->getRadius() <= 0)
+            {
+                s->setYVel(-s->getVelocity().y);
             }
         }
     }
-
-    Vec2<int> newPos = mCenter + mv; 
+    Vec2<int> newPos = mCenter + mv * dt;
     /* Check wall constraints */
-    if (newPos.x + mr < width && newPos.x - mr > 0 && newPos.y - mr > 0 && newPos.y + mr < height) {
+    if (newPos.x + mr < width && newPos.x - mr > 0 && newPos.y - mr > 0 && newPos.y + mr < height)
+    {
         mCenter = newPos;
     }
-    if (newPos.x + mr >= width || newPos.x - mr <= 0) {
+    if (mCenter.x + mr >= width) { // right boundary
+        mCenter.x = width - mr - 2;
+    }
+    if (mCenter.x - mr <= 0) { // left boundary
+        mCenter.x = 0 + mr + 2;
+    }
+    if (mCenter.y + mr >= height) { // bottom boundary
+        mCenter.y = height - mr - 2;
+    }
+    if (mCenter.y - mr <= 0) { // top boundary
+        mCenter.y = 0 + mr + 2;
+    }
+    if (newPos.x + mr >= width || newPos.x - mr <= 0)
+    {
         mv.x = -mv.x;
     }
-    if (newPos.y + mr >= height || newPos.y - mr <= 0) {
+    if (newPos.y + mr >= height || newPos.y - mr <= 0)
+    {
         mv.y = -mv.y;
     }
 }
