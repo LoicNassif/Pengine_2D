@@ -1,6 +1,5 @@
 {
-    "objects": [
-        {
+    "objects": [{
             "shape": "circle",
             "size": 15,
             "x_pos": 100,
@@ -47,12 +46,12 @@
         },
         {
             "shape": "circle",
-            "size": 40,
+            "size": 30,
             "x_pos": 600,
             "y_pos": 100,
             "x_vel": 5,
             "y_vel": 2,
-            "mass": 5
+            "mass": 2
         },
         {
             "shape": "circle",
@@ -79,6 +78,33 @@
             "y_pos": 100,
             "x_vel": 0,
             "y_vel": -4,
+            "mass": 1
+        },
+        {
+            "shape": "circle",
+            "size": 10,
+            "x_pos": 100,
+            "y_pos": 200,
+            "x_vel": 1,
+            "y_vel": 1,
+            "mass": 1
+        },
+        {
+            "shape": "circle",
+            "size": 10,
+            "x_pos": 200,
+            "y_pos": 200,
+            "x_vel": 2,
+            "y_vel": 4,
+            "mass": 1
+        },
+        {
+            "shape": "circle",
+            "size": 10,
+            "x_pos": 300,
+            "y_pos": 200,
+            "x_vel": 0,
+            "y_vel": -1,
             "mass": 1
         }
     ]

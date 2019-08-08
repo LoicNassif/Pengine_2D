@@ -18,22 +18,23 @@ bool detect_circle_collisions(Circle* a, Circle* b) {
 void elastic_collision(Circle* a, Circle* b) {
     double m_a = a->getMass(); double m_b = b->getMass();
     Vec2<int> v_a = a->getVelocity(); Vec2<int> v_b = b->getVelocity();
+    Vec2<int> c_a = a->getCenter(); Vec2<int> c_b = b->getCenter();
 
-    /* x direction */
-    double Ax = m_a * v_a.x + m_b * v_b.x;
-    double Bx = 0.5 * m_a * v_a.x * v_a.x + 0.5 * m_b * v_b.x * v_b.x;
-    double sqrt_dx = std::sqrt(m_a * m_b * (2 * m_a * Bx + 2 * m_b * Bx - Ax * Ax)); 
-    double vx_a = (Ax * m_a - sqrt_dx) / (m_a * (m_a + m_b));
-    double vx_b = (Ax * m_b + sqrt_dx) / (m_b * (m_a + m_b));
-    a->setXVel(vx_a); b->setXVel(vx_b);
+    double distance = std::sqrt((c_a.x - c_b.x) * (c_a.x - c_b.x) + (c_a.y - c_b.y) * (c_a.y - c_b.y));
 
-    /* y direction */
-    double Ay = m_a * v_a.y + m_b * v_b.y;
-    double By = 0.5 * m_a * v_a.y * v_a.y + 0.5 * m_b * v_b.y * v_b.y;
-    double sqrt_dy = std::sqrt(m_a * m_b * (2 * m_a * By + 2 * m_b * By - Ay * Ay));
-    double vy_a = (Ay * m_a - sqrt_dy) / (m_a * (m_a + m_b));
-    double vy_b = (Ay * m_b + sqrt_dy) / (m_b * (m_a + m_b)); 
-    a->setYVel(vy_a); b->setYVel(vy_b);
+    double nx = (c_b.x - c_a.x) / distance;
+    double ny = (c_b.y - c_a.y) / distance;
+    double kx = v_a.x - v_b.x;
+    double ky = v_a.y - v_b.y;
+
+    double p = 2.0 * (nx * kx + ny * ky) / (m_b + m_a);
+    double v_afx = v_a.x - p * m_b * nx;
+    double v_afy = v_a.y - p * m_b * ny;
+    double v_bfx = v_b.x + p * m_a * nx;
+    double v_bfy = v_b.y + p * m_a * ny;
+
+    a->setXVel(v_afx); a->setYVel(v_afy);
+    b->setXVel(v_bfx); b->setYVel(v_bfy);
 }
 
 void draw_circle(int x, int y, int p, int q, SDL_Renderer &ren)
@@ -71,7 +72,7 @@ void Circle::move(int width, int height, const std::vector<Shape *>& objs) {
     {
         if (this != s)
         {
-            while (detect_circle_collisions(this, static_cast<Circle *>(s)))
+            if (detect_circle_collisions(this, static_cast<Circle *>(s)))
             {
                 elastic_collision(this, static_cast<Circle *>(s));
                 Vec2<int> sNewPos = s->getCenter() + s->getVelocity() * dt;
@@ -80,17 +81,19 @@ void Circle::move(int width, int height, const std::vector<Shape *>& objs) {
                     s->setCenter(sNewPos);
                 }
                 mCenter = mCenter + mv*dt;
-                while (detect_circle_collisions(this, static_cast<Circle *>(s))) {
-                    if (s->getCenter().x >= mCenter.x) { // On the right
-                        mCenter.x--;
-                    } else { // On the left
-                        mCenter.x++;
-                    }
-                    if (s->getCenter().y >= mCenter.y) { // On the bottom
-                        mCenter.y--;
-                    } else { // On the top
-                        mCenter.y++;
-                    }
+                if (detect_circle_collisions(this, static_cast<Circle *>(s))) {
+                    // Static collision resolution
+                    double distance = std::sqrt((s->getCenter().x - mCenter.x) * (s->getCenter().x - mCenter.x) 
+                                                + (s->getCenter().y - mCenter.y) * (s->getCenter().y - mCenter.y));
+                    double overlap = 0.5 * (distance - mr - s->getRadius());
+
+                    // Displace current circle
+                    mCenter.x -= overlap * (mCenter.x - s->getCenter().x) / distance;
+                    mCenter.y -= overlap * (mCenter.y - s->getCenter().y) / distance;
+
+                    // Displace other circle
+                    s->setXCenter(s->getCenter().x + overlap * (mCenter.x - s->getCenter().x) / distance);
+                    s->setYCenter(s->getCenter().y + overlap * (mCenter.y - s->getCenter().y) / distance);
                 }
             }
             int sRadius = s->getRadius(); 

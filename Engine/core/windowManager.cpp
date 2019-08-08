@@ -53,6 +53,51 @@ void WindowManager::update(SDL_Event& e) {
 }
 
 void WindowManager::handleEvent(const SDL_Event& e) {
+    /* mouse in circle */
+    auto checkCollision = [](int x1, int y1, int x2, int y2, int r) {
+        return std::abs((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) < (r * r);
+    };
+    int x,y;
+    SDL_GetMouseState(&x, &y);
+    /* Check mouse input */
+    if (e.type == SDL_MOUSEBUTTONDOWN)
+    {
+        SDL_GetMouseState(&x, &y);
+        mousePosition.x = x;
+        mousePosition.y = y;
+        for (Shape *s : objects)
+        {
+            if (checkCollision(s->getCenter().x, s->getCenter().y, x, y, s->getRadius()))
+            {                
+                shape_ptr = s;
+                pressingDown = true;   
+                break;
+            }
+        }
+    }
+
+    if (pressingDown)
+    {
+        if (shape_ptr != nullptr)
+        {
+            shape_ptr->setXCenter(x);
+            shape_ptr->setYCenter(y);
+        }
+    }
+
+    if (e.type == SDL_MOUSEBUTTONUP)
+    {
+        SDL_GetMouseState(&x, &y);
+        if (shape_ptr != nullptr) {
+            shape_ptr->setXVel(0.05*(x - mousePosition.x));
+            shape_ptr->setYVel(0.05*(y - mousePosition.y));
+            shape_ptr = nullptr;
+        }
+        pressingDown = false;
+        mousePosition.x = x;
+        mousePosition.y = y;
+    }
+
     // Window event occured
     if (e.type == SDL_WINDOWEVENT && e.window.windowID == mWindowID)
     {

@@ -36,8 +36,16 @@ public:
 
     // Object list
     std::vector<Shape *> objects;
+    Vec2<int> mouseVelocity = Vec2<int>(0,0);
+    Vec2<int> mousePosition = Vec2<int>(0,0);
 
-private:
+    private :
+    // mouse state
+    bool pressingDown = false;
+
+    // Currently selected shape
+    Shape *shape_ptr = nullptr;
+
     // Debug mode flag
     bool mDebug = false;
 

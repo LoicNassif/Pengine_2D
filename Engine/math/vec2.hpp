@@ -12,9 +12,9 @@ class Vec2 {
 
 /* Dot product */
 template <typename Number>
-Vec2<Number> operator*(const Vec2<Number> &a, const Vec2<Number> &b)
+int operator*(const Vec2<Number> &a, const Vec2<Number> &b)
 {
-    return Vec2<Number>(a.x * b.x, a.y + b.y);
+    return a.x*b.x + a.y*b.y;
 }
 
 /* scalar multiplication */
