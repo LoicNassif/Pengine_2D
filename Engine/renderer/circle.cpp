@@ -17,7 +17,7 @@ bool detect_circle_collisions(Circle* a, Circle* b) {
 
 void elastic_collision(Circle* a, Circle* b) {
     double m_a = a->getMass(); double m_b = b->getMass();
-    Vec2<int> v_a = a->getVelocity(); Vec2<int> v_b = b->getVelocity();
+    Vec2<double> v_a = a->getVelocity(); Vec2<double> v_b = b->getVelocity();
     Vec2<int> c_a = a->getCenter(); Vec2<int> c_b = b->getCenter();
 
     double distance = std::sqrt((c_a.x - c_b.x) * (c_a.x - c_b.x) + (c_a.y - c_b.y) * (c_a.y - c_b.y));
@@ -171,6 +171,6 @@ Vec2<int> Circle::getCenter() const {
     return mCenter;
 }
 
-Vec2<int> Circle::getVelocity() const {
+Vec2<double> Circle::getVelocity() const {
     return mv;
 }

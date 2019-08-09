@@ -24,7 +24,7 @@ void WindowManager::render() {
     }
 
     /* Render all objects */
-    for (Shape *s : objects) {
+    for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
         s->render(*mRenderer);
 
         if (mDebug) {
@@ -42,60 +42,54 @@ void WindowManager::render() {
 }
 
 void WindowManager::update(SDL_Event& e) {
+    //mouse.update(e);
+
     while (SDL_PollEvent(&e) != 0) {
         handleEvent(e);
     }
 
-    /* Update all objects */
-    for (Shape *s : objects) {
-        s->move(mWidth, mHeight, objects);
+    for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
+        s->move(mWidth, mHeight, engine_ptr->getPhysicsManager()->objects);
     }
 }
 
 void WindowManager::handleEvent(const SDL_Event& e) {
-    /* mouse in circle */
-    auto checkCollision = [](int x1, int y1, int x2, int y2, int r) {
-        return std::abs((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) < (r * r);
-    };
-    int x,y;
-    SDL_GetMouseState(&x, &y);
+    mouse.update(e);
     /* Check mouse input */
-    if (e.type == SDL_MOUSEBUTTONDOWN)
+    if (mouse.getState() == Status::PRESSDOWN)
     {
-        SDL_GetMouseState(&x, &y);
-        mousePosition.x = x;
-        mousePosition.y = y;
-        for (Shape *s : objects)
+        for (Shape *s : engine_ptr->getPhysicsManager()->objects)
         {
-            if (checkCollision(s->getCenter().x, s->getCenter().y, x, y, s->getRadius()))
-            {                
+            if (engine_ptr->getPhysicsManager()->checkCircularCollision(s->getCenter().x, 
+                s->getCenter().y, mouse.getXPos(), mouse.getYPos(), s->getRadius()))
+            {    
+                prevMousePos.x = mouse.getXPos();
+                prevMousePos.y = mouse.getYPos();         
                 shape_ptr = s;
-                pressingDown = true;   
+                shape_ptr->setXVel(0);
+                shape_ptr->setYVel(0);
                 break;
             }
         }
     }
-
-    if (pressingDown)
+    mouse.update(e);
+    if (mouse.getState() == Status::HOLDINGDOWN)
     {
         if (shape_ptr != nullptr)
         {
-            shape_ptr->setXCenter(x);
-            shape_ptr->setYCenter(y);
+            shape_ptr->setXCenter(mouse.getXPos());
+            shape_ptr->setYCenter(mouse.getYPos());
         }
     }
+    mouse.update(e);
 
-    if (e.type == SDL_MOUSEBUTTONUP)
+    if (mouse.getState() == Status::RELEASED)
     {
-        SDL_GetMouseState(&x, &y);
         if (shape_ptr != nullptr) {
-            shape_ptr->setXVel(0.05*(x - mousePosition.x));
-            shape_ptr->setYVel(0.05*(y - mousePosition.y));
+            shape_ptr->setXVel(0.05*(mouse.getXPos() - prevMousePos.x));
+            shape_ptr->setYVel(0.05*(mouse.getYPos() - prevMousePos.y));
             shape_ptr = nullptr;
         }
-        pressingDown = false;
-        mousePosition.x = x;
-        mousePosition.y = y;
     }
 
     // Window event occured

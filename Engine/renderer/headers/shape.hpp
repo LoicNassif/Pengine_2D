@@ -25,7 +25,7 @@ class Shape {
 
         // Getters
         virtual Vec2<int> getCenter() const = 0;
-        virtual Vec2<int> getVelocity() const = 0;
+        virtual Vec2<double> getVelocity() const = 0;
         virtual int getRadius() const = 0; 
         virtual int getMass() const = 0;
 };

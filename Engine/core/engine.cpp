@@ -3,13 +3,17 @@
 
 Engine::Engine() {
     // Create Managers
-    mWindowManager = new WindowManager();
+    mWindowManager = new WindowManager(this);
+    mPhysicsManager = new PhysicsManager(this);
 }
 
 void Engine::startUp() {
     // Start up the managers
     mWindowManager->startUp();
     std::cout << "\t window manager start up complete." << std::endl;
+    
+    mPhysicsManager->startUp();
+    std::cout << "\t physics manager start up complete." << std::endl;
 }
 
 void Engine::run() {
@@ -27,6 +31,8 @@ void Engine::run() {
 
 void Engine::shutDown() {
     mWindowManager->shutDown();
-
     std::cout << "\t window manager shut down complete." << std::endl;
+
+    mPhysicsManager->shutDown();
+    std::cout << "\t physics manager shut down complete." << std::endl;
 }

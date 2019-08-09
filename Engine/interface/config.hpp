@@ -19,7 +19,7 @@ namespace pe {
     }
 
     void pushShape(const Engine &e, Shape* s) {
-        e.getWindowManager()->objects.push_back(s);
+        e.getPhysicsManager()->objects.push_back(s);
     }
 
     void processJSON(const Engine &e, const std::string&& filename) {
@@ -40,7 +40,7 @@ namespace pe {
                 int mass = obj["mass"];
 
                 if (shape_type == "Circle" || shape_type == "circle") {
-                    Circle *c = new Circle(Vec2<int>(x_pos, y_pos), size, Vec2<int>(x_vel, y_vel), mass);
+                    Circle *c = new Circle(Vec2<int>(x_pos, y_pos), size, Vec2<double>(x_vel, y_vel), mass);
                     pushShape(e, c);
                 }
             }

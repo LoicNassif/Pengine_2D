@@ -3,13 +3,17 @@
 #undef main
 #include <vector>
 #include "../../renderer/headers/shape.hpp"
+#include "../../interface/mouse.hpp"
+#include "engine.hpp"
 
 enum class Color { white, black };
+
+class Engine;
 
 class WindowManager
 {
 public:
-    WindowManager(){};
+    WindowManager(const Engine* e) : engine_ptr(e) {};
     ~WindowManager(){};
 
     // Window manager start-up
@@ -34,14 +38,12 @@ public:
     inline void setWindowColor(Color&& c) { mColor = c; }
     inline void setDebugMode(bool flag) { mDebug = flag; }
 
-    // Object list
-    std::vector<Shape *> objects;
-    Vec2<int> mouseVelocity = Vec2<int>(0,0);
-    Vec2<int> mousePosition = Vec2<int>(0,0);
-
     private :
-    // mouse state
-    bool pressingDown = false;
+    // log on previous mouse position
+    Vec2<int> prevMousePos = Vec2<int>(0,0);
+
+    // A mouse object
+    Mouse mouse;
 
     // Currently selected shape
     Shape *shape_ptr = nullptr;
@@ -81,4 +83,7 @@ public:
     // Window focii
     bool mMouseFocus;
     bool mKeyboardFocus;
+
+    // Instance of the engine
+    const Engine *engine_ptr = nullptr;
 };

@@ -3,6 +3,10 @@
 #undef main
 
 #include "windowManager.hpp"
+#include "physicsManager.hpp"
+
+class WindowManager;
+class PhysicsManager;
 
 class Engine {
     public:
@@ -24,7 +28,9 @@ class Engine {
 
         // Getters
         inline WindowManager* getWindowManager() const { return mWindowManager; } 
+        inline PhysicsManager* getPhysicsManager() const { return mPhysicsManager; }
 
     private:
         WindowManager *mWindowManager;
+        PhysicsManager *mPhysicsManager;
 };

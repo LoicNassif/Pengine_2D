@@ -31,8 +31,8 @@ Vec2<Number> operator*(Const c, const Vec2<Number> &a)
 }
 
 /* Element wise addition */
-template <typename Number>
-Vec2<Number> operator+(const Vec2<Number> &a, const Vec2<Number> &b)
+template <typename Number, typename Number2>
+Vec2<Number> operator+(const Vec2<Number> &a, const Vec2<Number2> &b)
 {
     return Vec2<Number>(a.x + b.x, a.y + b.y);
 }
