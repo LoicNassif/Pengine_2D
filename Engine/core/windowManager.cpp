@@ -42,19 +42,19 @@ void WindowManager::render() {
 }
 
 void WindowManager::update(SDL_Event& e) {
-    //mouse.update(e);
-
     while (SDL_PollEvent(&e) != 0) {
         handleEvent(e);
     }
 
     for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
-        s->move(mWidth, mHeight, engine_ptr->getPhysicsManager()->objects);
+        engine_ptr->getPhysicsManager()->moveObject(s);
+        //s->move(mWidth, mHeight, engine_ptr->getPhysicsManager()->objects);
     }
 }
 
 void WindowManager::handleEvent(const SDL_Event& e) {
     mouse.update(e);
+
     /* Check mouse input */
     if (mouse.getState() == Status::PRESSDOWN)
     {
@@ -73,6 +73,8 @@ void WindowManager::handleEvent(const SDL_Event& e) {
         }
     }
     mouse.update(e);
+
+    /* Check mouse input */
     if (mouse.getState() == Status::HOLDINGDOWN)
     {
         if (shape_ptr != nullptr)
@@ -83,6 +85,7 @@ void WindowManager::handleEvent(const SDL_Event& e) {
     }
     mouse.update(e);
 
+    /* Check mouse input */
     if (mouse.getState() == Status::RELEASED)
     {
         if (shape_ptr != nullptr) {

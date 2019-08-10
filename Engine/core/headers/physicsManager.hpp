@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
-#include "../../renderer/headers/shape.hpp"
+#include "../../renderer/headers/circle.hpp"
+#include "engine.hpp"
 
 class Engine;
 
@@ -23,6 +24,17 @@ class PhysicsManager {
         bool checkCircularCollision(int x1, int y1, int x2, int y2, int r) {
             return std::abs((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) < (r * r);
         }
+        bool checkCircularCollision(Circle* a, Circle* b); 
+        void elasticCollision(Circle* a, Circle* b);
+        
+        void moveObject(Circle* target);
+        void moveObject(Shape* target);
+
+        // Setters
+        void setTimeStep(int dt) { m_dt = dt; } 
+
+        // Getters
+        int getTimeStep() { return m_dt; }
 
         // Object list
         std::vector<Shape *> objects;
@@ -30,4 +42,7 @@ class PhysicsManager {
     private:
         // Engine instance
         const Engine* engine_ptr = nullptr;
+
+        // Time-step
+        int m_dt = 2;
 };

@@ -12,7 +12,6 @@ class Shape {
         virtual void render(SDL_Renderer &renderer) const = 0;
 
         /* modifications */
-        virtual void move(int width, int height, const std::vector<Shape *> &objs) = 0;
         virtual void rotate(int angle) = 0;
         virtual void resize(int factor) = 0;
 
