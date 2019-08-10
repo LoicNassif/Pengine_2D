@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL.h>
 #undef main
-#include <vector>
 #include "../../math/vec2.hpp"
 
 class Shape {
@@ -25,6 +24,5 @@ class Shape {
         // Getters
         virtual Vec2<int> getCenter() const = 0;
         virtual Vec2<double> getVelocity() const = 0;
-        virtual int getRadius() const = 0; 
         virtual int getMass() const = 0;
 };

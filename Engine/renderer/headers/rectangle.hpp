@@ -2,13 +2,14 @@
 
 #include "shape.hpp"
 
-class Circle : public Shape {
+class Rectangle : public Shape {
     public:
-        Circle(Vec2<int>& center, int r, Vec2<double>& v, int m) : mCenter(center), mr(r), mv(v), mMass(m) { }
-        ~Circle() {}
+        // TODO: make a vertex class to hold shape vertices
+        Rectangle(Vec2<int>& center, int p1, int p2, int p3, int p4, Vec2<double>& v, int m) : mCenter(center), mv(v), mMass(m) {}
+        ~Rectangle();
 
         /* Render */
-        void render(SDL_Renderer& renderer) const override;
+        void render(SDL_Renderer &renderer) const override;
 
         /* modifications */
         void rotate(int angle) override;
@@ -16,15 +17,14 @@ class Circle : public Shape {
 
         // Setters
         void setCenter(const Vec2<int> &v) override;
-        void setXCenter(int x) override {mCenter.x = x;}
-        void setYCenter(int y) override {mCenter.y = y;}
+        void setXCenter(int x) override { mCenter.x = x; }
+        void setYCenter(int y) override { mCenter.y = y; }
         void setXVel(int vx) override { mv.x = vx; }
         void setYVel(int vy) override { mv.y = vy; }
 
         // Getters
         Vec2<int> getCenter() const override;
         Vec2<double> getVelocity() const override;
-        int getRadius() const { return mr; }
         int getMass() const override { return mMass; }
 
     private:
