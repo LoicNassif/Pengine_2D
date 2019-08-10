@@ -45,4 +45,7 @@ class PhysicsManager {
 
         // Time-step
         int m_dt = 2;
+
+        // Global gravitational acceleration
+        int m_gg = 1;
 };
