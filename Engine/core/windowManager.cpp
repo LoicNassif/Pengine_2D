@@ -149,7 +149,7 @@ void WindowManager::handleEvent(const SDL_Event& e) {
 
 bool WindowManager::initWindow(const char *title, int screen_width, int screen_height, bool shown) {
     // Create Window
-    mWindow = SDL_CreateWindow("Pengine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, 
+    mWindow = SDL_CreateWindow("Pengine v0.1", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, 
                                 screen_height, SDL_WINDOW_SHOWN);
 
     // Grab window indentifier
