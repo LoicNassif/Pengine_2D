@@ -1,0 +1,3 @@
+# Ignore build and vscode folder
+BasicSimulation/build/
+.vscode/
