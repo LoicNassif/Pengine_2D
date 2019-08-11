@@ -6,12 +6,14 @@
 - Odd behavior when squeezing circles between a collision and the bottom and top boundary
 - Circles coming to a stop too often
 - Mouse collision are only static
+- Code refactoring needed using a physics manager
 
 ### Unresolved
 - Need error safeguards for window start-up
-- Code refactoring needed using a physics manager
 - Build a quadtree to localize and optimize physics computations
 - "Black Hole" appears at very rare occasions, which causes objects to disappear
+- Incorporate Unit testing (likely Catch2)
+- Mouse controlled object after collision has odd velocity behaviour
 
 ## August 7th, 2019
 
