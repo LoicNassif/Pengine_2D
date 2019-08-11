@@ -44,8 +44,8 @@ class PhysicsManager {
         const Engine* engine_ptr = nullptr;
 
         // Time-step
-        int m_dt = 2;
+        double m_dt = 1;
 
         // Global gravitational acceleration
-        int m_gg = 1;
+        double m_gg = 0.2;
 };

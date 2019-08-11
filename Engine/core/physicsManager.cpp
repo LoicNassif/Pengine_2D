@@ -74,6 +74,7 @@ void PhysicsManager::moveObject(Circle* target) {
                     
                     // Set and check if the new values are within the borders of the screen
                     Vec2<int> sNewPos = sCircle->getCenter() + sCircle->getVelocity() * m_dt;
+                    sNewPos.y += m_gg * m_dt; // gravitational acc
                     if (sNewPos.x + sRadius < width && sNewPos.x - sRadius > 0 && sNewPos.y - sRadius > 0 && sNewPos.y + sRadius < height) {
                         sCircle->setCenter(sNewPos);
                     }
@@ -95,6 +96,7 @@ void PhysicsManager::moveObject(Circle* target) {
                     }
 
                     Vec2<int> tNewPos = target->getCenter() + target->getVelocity()*m_dt;
+                    tNewPos.y += m_gg * m_dt;
                     if (tNewPos.x + tRadius < width && tNewPos.x - tRadius > 0 && tNewPos.y - tRadius > 0 && tNewPos.y + tRadius < height)
                     {
                         target->setCenter(tNewPos);
@@ -142,30 +144,32 @@ void PhysicsManager::moveObject(Circle* target) {
     /* Check boundary contraints only if there was no collision */
     if (!haveICollided) {
         Vec2<int> tNewPos = target->getCenter() + target->getVelocity() * m_dt;
+        target->setYVel(target->getVelocity().y + 0.5 * m_gg * m_dt);
         if (tNewPos.x + tRadius < width && tNewPos.x - tRadius > 0 && tNewPos.y - tRadius > 0 && tNewPos.y + tRadius < height)
         {
             target->setCenter(tNewPos);
         }
         if (tNewPos.x + tRadius >= width)
         { // right boundary
-            target->setXCenter(width - tRadius - 2);
+            target->setXCenter(width - tRadius);
             target->setXVel(-target->getVelocity().x);
         }
         if (tNewPos.x - tRadius <= 0)
         { // left boundary
-            target->setXCenter(0 + tRadius + 2);
+            target->setXCenter(0 + tRadius);
             target->setXVel(-target->getVelocity().x);
         }
         if (tNewPos.y + tRadius >= height)
         { // bottom boundary
-            target->setYCenter(height - tRadius - 2);
+            target->setYCenter(height - tRadius);
             target->setYVel(-target->getVelocity().y);
         }
         if (tNewPos.y - tRadius <= 0)
         { // top boundary
-            target->setYCenter(0 + tRadius + 2);
+            target->setYCenter(0 + tRadius);
             target->setYVel(-target->getVelocity().y);
         }
+        std::cout << target->getVelocity() << std::endl;
     }
 
 }
