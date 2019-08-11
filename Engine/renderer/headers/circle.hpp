@@ -18,8 +18,8 @@ class Circle : public Shape {
         void setCenter(const Vec2<int> &v) override;
         void setXCenter(int x) override {mCenter.x = x;}
         void setYCenter(int y) override {mCenter.y = y;}
-        void setXVel(int vx) override { mv.x = vx; }
-        void setYVel(int vy) override { mv.y = vy; }
+        void setXVel(double vx) override { mv.x = vx; }
+        void setYVel(double vy) override { mv.y = vy; }
 
         // Getters
         Vec2<int> getCenter() const override;

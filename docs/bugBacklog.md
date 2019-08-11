@@ -1,5 +1,18 @@
 # Bug Backlog
 
+## August 11th, 2019
+
+### Resolved
+- Odd behavior when squeezing circles between a collision and the bottom and top boundary
+- Circles coming to a stop too often
+- Mouse collision are only static
+
+### Unresolved
+- Need error safeguards for window start-up
+- Code refactoring needed using a physics manager
+- Build a quadtree to localize and optimize physics computations
+- "Black Hole" appears at very rare occasions, which causes objects to disappear
+
 ## August 7th, 2019
 
 ### Resolved
