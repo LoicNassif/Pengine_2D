@@ -10,6 +10,8 @@
 - Local gravity (e.g. planet interactions)
 - Add Squares
 - Add Triangles
+- Add documentation (e.g. Doxygen)
+- Add logging system (e.g. Pantheios)
 
 ## August 6th, 2019
 
