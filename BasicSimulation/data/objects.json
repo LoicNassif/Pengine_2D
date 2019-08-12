@@ -51,7 +51,7 @@
             "y_pos": 100,
             "x_vel": 5,
             "y_vel": 2,
-            "mass": 2
+            "mass": 3
         },
         {
             "shape": "circle",
