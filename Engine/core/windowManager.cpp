@@ -29,7 +29,7 @@ void WindowManager::render() {
 
         if (mDebug) {
             /* Render the center for debug purposes */
-            SDL_RenderDrawPoint(mRenderer, s->getCenter().x, s->getCenter().y);
+            SDL_RenderDrawPoint(mRenderer, (int)s->getCenter().x, (int)s->getCenter().y);
         }
     }
 
@@ -73,8 +73,8 @@ void WindowManager::handleEvent(const SDL_Event& e) {
     {
         for (Shape *s : engine_ptr->getPhysicsManager()->objects)
         {
-            if (engine_ptr->getPhysicsManager()->checkCircularCollision(s->getCenter().x, 
-                s->getCenter().y, mouse.getXPos(), mouse.getYPos(), s->getRadius()))
+            if (engine_ptr->getPhysicsManager()->checkCircularCollision((int)s->getCenter().x, 
+                (int)s->getCenter().y, mouse.getXPos(), mouse.getYPos(), s->getRadius()))
             {    
                 prevMousePos.x = mouse.getXPos();
                 prevMousePos.y = mouse.getYPos();         

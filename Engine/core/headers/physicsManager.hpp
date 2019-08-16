@@ -26,15 +26,16 @@ class PhysicsManager {
         }
         bool checkCircularCollision(Circle* a, Circle* b); 
         void elasticCollision(Circle* a, Circle* b);
+        void velocityVerlet(Vec2<double>& newPos, Vec2<double>& newVel, Circle* a);
         
         void moveObject(Circle* target);
         void moveObject(Shape* target);
 
         // Setters
-        void setTimeStep(int dt) { m_dt = dt; } 
+        void setTimeStep(double dt) { m_dt = dt; } 
 
         // Getters
-        int getTimeStep() { return m_dt; }
+        double getTimeStep() { return m_dt; }
 
         // Object list
         std::vector<Shape *> objects;

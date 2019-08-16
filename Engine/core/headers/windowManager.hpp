@@ -41,7 +41,7 @@ public:
 
 private :
     // log on previous mouse position
-    Vec2<int> prevMousePos = Vec2<int>(0,0);
+    Vec2<double> prevMousePos = Vec2<double>(0,0);
 
     // Paused
     bool isPaused = false;
