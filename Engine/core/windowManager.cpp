@@ -43,12 +43,25 @@ void WindowManager::render() {
 
 void WindowManager::update(SDL_Event& e) {
     while (SDL_PollEvent(&e) != 0) {
-        handleEvent(e);
-    }
+        updatePaused(e);
 
-    for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
-        engine_ptr->getPhysicsManager()->moveObject(s);
-        //s->move(mWidth, mHeight, engine_ptr->getPhysicsManager()->objects);
+        if (!isPaused)
+        {
+            handleEvent(e);
+        }
+    }
+    
+    if (!isPaused) {
+        for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
+            engine_ptr->getPhysicsManager()->moveObject(s);
+        }
+    }
+}
+
+void WindowManager::updatePaused(const SDL_Event& e) {
+    /* Check for pausing input */
+    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_p) {
+        isPaused = !isPaused;
     }
 }
 
