@@ -43,12 +43,25 @@ void WindowManager::render() {
 
 void WindowManager::update(SDL_Event& e) {
     while (SDL_PollEvent(&e) != 0) {
-        handleEvent(e);
-    }
+        updatePaused(e);
 
-    for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
-        engine_ptr->getPhysicsManager()->moveObject(s);
-        //s->move(mWidth, mHeight, engine_ptr->getPhysicsManager()->objects);
+        if (!isPaused)
+        {
+            handleEvent(e);
+        }
+    }
+    
+    if (!isPaused) {
+        for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
+            engine_ptr->getPhysicsManager()->moveObject(s);
+        }
+    }
+}
+
+void WindowManager::updatePaused(const SDL_Event& e) {
+    /* Check for pausing input */
+    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_p) {
+        isPaused = !isPaused;
     }
 }
 
@@ -149,7 +162,7 @@ void WindowManager::handleEvent(const SDL_Event& e) {
 
 bool WindowManager::initWindow(const char *title, int screen_width, int screen_height, bool shown) {
     // Create Window
-    mWindow = SDL_CreateWindow("Pengine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, 
+    mWindow = SDL_CreateWindow("Pengine v0.1", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, 
                                 screen_height, SDL_WINDOW_SHOWN);
 
     // Grab window indentifier

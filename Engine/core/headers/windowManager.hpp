@@ -25,6 +25,7 @@ public:
     // Render functions
     void render();
     void update(SDL_Event &e);
+    void updatePaused(const SDL_Event& e);
 
     // Getters
     inline bool getStatus() { return mStatus; }
@@ -38,9 +39,12 @@ public:
     inline void setWindowColor(Color&& c) { mColor = c; }
     inline void setDebugMode(bool flag) { mDebug = flag; }
 
-    private :
+private :
     // log on previous mouse position
     Vec2<int> prevMousePos = Vec2<int>(0,0);
+
+    // Paused
+    bool isPaused = false;
 
     // A mouse object
     Mouse mouse;
