@@ -18,10 +18,6 @@ int operator*(const Vec2<Number> &a, const Vec2<Number> &b)
     return a.x*b.x + a.y*b.y;
 }
 
-// TEST_CASE("Vec2 dot product", "[operator*]") {
-//     REQUIRE( operator*(Vec2<int>(0,1), Vec2<int>(-1,0)));
-// }
-
 /* scalar multiplication */
 template <typename Number, typename Const>
 Vec2<Number> operator*(const Vec2<Number> &a, Const c)
