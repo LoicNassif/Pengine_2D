@@ -20,16 +20,23 @@ class Circle : public Shape {
         void setYCenter(double y) override {mCenter.y = y;}
         void setXVel(double vx) override { mv.x = vx; }
         void setYVel(double vy) override { mv.y = vy; }
+        void switchXInWall() { in_wallx = !in_wallx; }
+        void switchYInWall() { in_wally = !in_wally; }
 
         // Getters
         Vec2<double> getCenter() const override;
         Vec2<double> getVelocity() const override;
         int getRadius() const override { return mr; }
         int getMass() const override { return mMass; }
+        int getXInWall() const { return in_wallx; }
+        int getYInWall() const { return in_wally; }
 
     private:
         Vec2<double> mCenter;
         Vec2<double> mv;
         int mr;
         int mMass;
+
+        bool in_wallx = false;
+        bool in_wally = false;
 };

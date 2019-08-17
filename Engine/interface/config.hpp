@@ -18,6 +18,10 @@ namespace pe {
         e.getWindowManager()->setWindowColor(std::move(c));
     }
 
+    void setGravity(const Engine &e, double g) {
+        e.getPhysicsManager()->setGravity(g);
+    }
+
     void pushShape(const Engine &e, Shape* s) {
         e.getPhysicsManager()->objects.push_back(s);
     }

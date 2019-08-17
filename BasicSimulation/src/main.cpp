@@ -4,13 +4,28 @@
 
 int main()
 {
+    Color c = Color::black;
+    double gravity = 0;
+    std::ifstream file("../data/config.json");
+    if (file.is_open()) {
+        json data;
+        file >> data;
+
+        gravity = data["gravity"];
+        std::string colour = data["colour"];
+
+        if (colour == "White" || colour == "white") {
+            c = Color::white;
+        }
+    }
+
     Engine e;
 
     /* Pre start up configurations */
     // Window config
     pe::setWindowDimensions(e, 1000, 500);
-    pe::setWindowColor(e, Color::black);
-    //pe::setDEBUG(e); // paints the centers  
+    pe::setWindowColor(e, std::move(c));
+    //pe::setDEBUG(e); // paints the centers, also some extra output  
 
     // Objects config
     pe::processJSON(e, "../data/objects.json");
@@ -19,7 +34,7 @@ int main()
     e.startUp();
 
     /* Post start up configurations (e.g. physics settings) */
-    // TODO
+    pe::setGravity(e, gravity);
 
     std::cout << "engine start-up completed." << std::endl;
 

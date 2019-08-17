@@ -31,6 +31,7 @@ public:
     inline bool getStatus() { return mStatus; }
     inline int getWindowWidth() { return mWidth; }
     inline int getWindowHeight() { return mHeight; }
+    bool getDebugStatus() { return mDebug; }
     inline SDL_Renderer* getRenderer() { return mRenderer; }
 
     // Setters
