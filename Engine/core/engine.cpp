@@ -3,8 +3,8 @@
 
 Engine::Engine() {
     // Create Managers
-    mWindowManager = new WindowManager(this);
-    mPhysicsManager = new PhysicsManager(this);
+    mWindowManager = std::unique_ptr<WindowManager>(new WindowManager(this));
+    mPhysicsManager = std::unique_ptr<PhysicsManager>(new PhysicsManager(this));
 }
 
 void Engine::startUp() {
