@@ -35,6 +35,7 @@ class PhysicsManager {
         // Setters
         void setTimeStep(double dt) { m_dt = dt; } 
         void setGravity(double g) {m_gg = g; }
+        void setUniformDrag(double d) { m_uni_drag = d; }
 
         // Getters
         double getTimeStep() { return m_dt; }
@@ -51,4 +52,7 @@ class PhysicsManager {
 
         // Global gravitational acceleration
         double m_gg = 0;
+
+        // Uniform drag coefficient
+        double m_uni_drag = 0;
 };

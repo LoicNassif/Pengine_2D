@@ -22,6 +22,10 @@ namespace pe {
         e.getPhysicsManager()->setGravity(g);
     }
 
+    void setUniformDrag(const Engine &e, double d) {
+        e.getPhysicsManager()->setUniformDrag(d);
+    }
+
     void pushShape(const Engine &e, Shape* s) {
         e.getPhysicsManager()->objects.push_back(s);
     }

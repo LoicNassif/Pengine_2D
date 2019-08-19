@@ -76,22 +76,22 @@ void PhysicsManager::wallCircularCollision(Circle* target) {
 
     if (target->getCenter().x + tRadius >= width)
     { // right boundary
-        //target->setXCenter(width - tRadius);
+        target->setXCenter(width - tRadius);
         target->setXVel(-target->getVelocity().x);
     }
     if (target->getCenter().x - tRadius <= 0)
     { // left boundary
-        //target->setXCenter(0 + tRadius);
+        target->setXCenter(0 + tRadius);
         target->setXVel(-target->getVelocity().x);
     }
     if (target->getCenter().y + tRadius >= height)
     { // bottom boundary
-        //target->setYCenter(height - tRadius);
+        target->setYCenter(height - tRadius);
         target->setYVel(-target->getVelocity().y);
     }
     if (target->getCenter().y - tRadius <= 0)
     { // top boundary
-        //target->setYCenter(0 + tRadius);
+        target->setYCenter(0 + tRadius);
         target->setYVel(-target->getVelocity().y);
     }
 }
@@ -187,11 +187,19 @@ void PhysicsManager::velocityVerlet(Vec2<double>& newPos, Vec2<double>& newVel, 
     // Implement half stepping
     double newVXhalf = a->getVelocity().x;
     double newX = a->getCenter().x + m_dt * newVXhalf;
-    double newVX = newVXhalf;
+    double newVX = (1 - m_uni_drag) * newVXhalf;
     
     double newVYhalf = a->getVelocity().y + 0.5 * m_dt * m_gg;
     double newY = a->getCenter().y + m_dt * newVYhalf;
-    double newVY = newVYhalf + 0.5 * m_dt * m_gg;
+    double newVY = (1 - m_uni_drag) * (newVYhalf + 0.5 * m_dt * m_gg);
+
+    // Clip the velocities to zero if too small
+    if (newVX < 0.05 && newVX > -0.05) {
+        newVX = 0;
+    }
+    if (newVY < 0.05 && newVY > -0.05) {
+        newVY = 0;
+    }
 
     newPos.x = newX; newPos.y = newY;
     newVel.x = newVX; newVel.y = newVY;

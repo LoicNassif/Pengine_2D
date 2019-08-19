@@ -6,12 +6,14 @@ int main()
 {
     Color c = Color::black;
     double gravity = 0;
+    double uni_drag = 0;
     std::ifstream file("../data/config.json");
     if (file.is_open()) {
         json data;
         file >> data;
 
         gravity = data["gravity"];
+        uni_drag = data["uniform_drag"];
         std::string colour = data["colour"];
 
         if (colour == "White" || colour == "white") {
@@ -35,6 +37,7 @@ int main()
 
     /* Post start up configurations (e.g. physics settings) */
     pe::setGravity(e, gravity);
+    pe::setUniformDrag(e, uni_drag);
 
     std::cout << "engine start-up completed." << std::endl;
 
