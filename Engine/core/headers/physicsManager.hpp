@@ -28,7 +28,8 @@ class PhysicsManager {
         void wallCircularCollision(Circle* a);
         void elasticCollision(Circle* a, Circle* b);
         void velocityVerlet(Vec2<double>& newPos, Vec2<double>& newVel, Circle* a);
-        
+        void staticWallCollision(Circle* a, double closestPointX, double closestPointY);
+
         void moveObject(Circle* target);
         void moveObject(Shape* target);
 

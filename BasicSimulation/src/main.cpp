@@ -25,7 +25,7 @@ int main()
 
     /* Pre start up configurations */
     // Window config
-    pe::setWindowDimensions(e, 1000, 500);
+    pe::setWindowDimensions(e, 200, 500);
     pe::setWindowColor(e, std::move(c));
     //pe::setDEBUG(e); // paints the centers, also some extra output  
 
