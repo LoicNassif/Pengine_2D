@@ -79,19 +79,6 @@ void PhysicsManager::wallCircularCollision(Circle* target) {
     int width = engine_ptr->getWindowManager()->getWindowWidth();
     int height = engine_ptr->getWindowManager()->getWindowHeight();
     int tRadius = target->getRadius();
-    // Vec2<int> tNewPos = target->getCenter() + target->getVelocity() * m_dt;
-
-    // target->setYVel(target->getVelocity().y + 0.5 * m_gg * m_dt);
-    // if (tNewPos.x + tRadius < width && tNewPos.x - tRadius > 0 && tNewPos.y - tRadius > 0 && tNewPos.y + tRadius < height)
-    // {
-    //     dv = tNewVel - target->getVelocity();
-    //     dx.x = (int)(tNewPos.x - target->getCenter().x);
-    //     dx.y = (int)(tNewPos.y - target->getCenter().y);
-    //     target->setXCenter(tNewPos.x);
-    //     target->setYCenter(tNewPos.y);
-    //     target->setXVel(tNewVel.x);
-    //     target->setYVel(tNewVel.y);
-    // }
 
     if (target->getCenter().x + tRadius >= width)
     { // right boundary
