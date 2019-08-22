@@ -304,11 +304,6 @@ void PhysicsManager::velocityVerlet(Vec2<double>& newPos, Vec2<double>& newVel, 
         }
     }
 
-    // if (a->getMass() == 2)
-    // {
-    //     std::cout << newVX << ", " << newVY << '\n';
-    // }
-
     newPos.x = newX; newPos.y = newY;
     newVel.x = newVX; newVel.y = newVY;
 }

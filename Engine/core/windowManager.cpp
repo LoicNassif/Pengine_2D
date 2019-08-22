@@ -53,7 +53,9 @@ void WindowManager::update(SDL_Event& e) {
     
     if (!isPaused) {
         for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
-            engine_ptr->getPhysicsManager()->moveObject(s);
+            if (static_cast<Circle*>(shape_ptr) != s) {
+                engine_ptr->getPhysicsManager()->moveObject(s);
+            }
         }
     }
 }
@@ -94,6 +96,8 @@ void WindowManager::handleEvent(const SDL_Event& e) {
         {
             shape_ptr->setXCenter(mouse.getXPos());
             shape_ptr->setYCenter(mouse.getYPos());
+            shape_ptr->setXVel(0);
+            shape_ptr->setYVel(0);
         }
     }
     mouse.update(e);
