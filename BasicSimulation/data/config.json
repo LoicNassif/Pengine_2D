@@ -1,0 +1,5 @@
+{
+    "gravity" : 0.2,
+    "uniform_drag": 0.005,
+    "colour": "black"
+}

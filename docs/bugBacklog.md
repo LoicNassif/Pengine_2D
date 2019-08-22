@@ -1,5 +1,18 @@
 # Bug Backlog
 
+## August 22th, 2019
+
+### Resolved
+- Incorporate Unit testing (likely Catch2)
+- Mouse controlled object after collision has odd velocity behaviour
+- Circles arrive to a still equilibrium now
+
+### Unresolved
+- Need error safeguards for window start-up
+- Build a quadtree to localize and optimize physics computations
+- "Black Hole" appears at very rare occasions, which causes objects to disappear
+- Change velocity Verlet method to RK4
+
 ## August 11th, 2019
 
 ### Resolved

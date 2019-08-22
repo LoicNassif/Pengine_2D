@@ -25,11 +25,13 @@ public:
     // Render functions
     void render();
     void update(SDL_Event &e);
+    void updatePaused(const SDL_Event& e);
 
     // Getters
     inline bool getStatus() { return mStatus; }
     inline int getWindowWidth() { return mWidth; }
     inline int getWindowHeight() { return mHeight; }
+    bool getDebugStatus() { return mDebug; }
     inline SDL_Renderer* getRenderer() { return mRenderer; }
 
     // Setters
@@ -38,9 +40,12 @@ public:
     inline void setWindowColor(Color&& c) { mColor = c; }
     inline void setDebugMode(bool flag) { mDebug = flag; }
 
-    private :
+private :
     // log on previous mouse position
-    Vec2<int> prevMousePos = Vec2<int>(0,0);
+    Vec2<double> prevMousePos = Vec2<double>(0,0);
+
+    // Paused
+    bool isPaused = false;
 
     // A mouse object
     Mouse mouse;

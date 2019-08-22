@@ -1,11 +1,11 @@
 #include "headers/physicsManager.hpp"
 
 void PhysicsManager::startUp() {
-
+    
 }
 
 void PhysicsManager::update(SDL_Event& e) {
-    
+
 }
 
 void PhysicsManager::shutDown() {
@@ -13,14 +13,14 @@ void PhysicsManager::shutDown() {
 }
 
 bool PhysicsManager::checkCircularCollision(Circle* a, Circle* b) {
-    Vec2<int> b_coord = b->getCenter();
-    Vec2<int> a_coord = a->getCenter();
+    Vec2<double> b_coord = b->getCenter();
+    Vec2<double> a_coord = a->getCenter();
 
     int ub = (b->getRadius() + a->getRadius()) * (b->getRadius() + a->getRadius());
     int lb = (b->getRadius() - a->getRadius()) * (b->getRadius() - a->getRadius());
-    int intersec = (b_coord.x - a_coord.x) * (b_coord.x - a_coord.x) + (b_coord.y - a_coord.y) * (b_coord.y - a_coord.y);
+    double intersec = (b_coord.x - a_coord.x) * (b_coord.x - a_coord.x) + (b_coord.y - a_coord.y) * (b_coord.y - a_coord.y);
 
-    return (intersec < ub);
+    return ((int)intersec < ub);
 }
 
 void PhysicsManager::elasticCollision(Circle* a, Circle* b) {
@@ -28,8 +28,8 @@ void PhysicsManager::elasticCollision(Circle* a, Circle* b) {
     double m_b = b->getMass();
     Vec2<double> v_a = a->getVelocity();
     Vec2<double> v_b = b->getVelocity();
-    Vec2<int> c_a = a->getCenter();
-    Vec2<int> c_b = b->getCenter();
+    Vec2<double> c_a = a->getCenter();
+    Vec2<double> c_b = b->getCenter();
 
     double distance = std::sqrt((c_a.x - c_b.x) * (c_a.x - c_b.x) + (c_a.y - c_b.y) * (c_a.y - c_b.y));
 
@@ -48,12 +48,148 @@ void PhysicsManager::elasticCollision(Circle* a, Circle* b) {
     a->setYVel(v_afy);
     b->setXVel(v_bfx);
     b->setYVel(v_bfy);
+
+    // clip the velocities if too low
+    if (a->getVelocity().x < 0.1 && a->getVelocity().x > -0.1)
+    {
+        a->setXVel(0);
+    }
+    if (a->getVelocity().y < 0.1 && a->getVelocity().y > -0.1)
+    {
+        a->setYVel(0);
+    }
+
+    if (b->getVelocity().x < 0.1 && b->getVelocity().x > -0.1)
+    {
+        b->setXVel(0);
+    }
+    if (b->getVelocity().y < 0.1 && b->getVelocity().y > -0.1)
+    {
+        b->setYVel(0);
+    }
 }
 
 void PhysicsManager::moveObject(Shape* target) {
     if (Circle* tCircle = dynamic_cast<Circle*>(target)) {
         moveObject(tCircle);
     }
+}
+
+void PhysicsManager::wallCircularCollision(Circle* target) {
+    int width = engine_ptr->getWindowManager()->getWindowWidth();
+    int height = engine_ptr->getWindowManager()->getWindowHeight();
+    int tRadius = target->getRadius();
+
+    if (target->getCenter().x + tRadius >= width)
+    { // right boundary
+        target->setXCenter(width - tRadius);
+        if (target->getVelocity().x < 0.05 && target->getVelocity().x > -0.05) {
+            target->setXVel(0);
+        } else {
+            target->setXVel(-target->getVelocity().x);
+        }
+    }
+    if (target->getCenter().x - tRadius <= 0)
+    { // left boundary
+        target->setXCenter(0 + tRadius);
+        if (target->getVelocity().x < 0.05 && target->getVelocity().x > -0.05) {
+            target->setXVel(0);
+        } else {
+            target->setXVel(-target->getVelocity().x);
+        }
+    }
+    if (target->getCenter().y + tRadius >= height)
+    { // bottom boundary
+        target->setYCenter(height - tRadius);
+        if (m_gg > 0) {
+            if (target->getVelocity().y < 2.7 && target->getVelocity().y > -2.7) {
+                // Add ultra drag
+                target->setYVel(-target->getVelocity().y * 0.7);
+            if (target->getVelocity().y < 0.47 && target->getVelocity().y > -0.47) {
+                target->setYVel(0);
+            }
+            } else {
+                target->setYVel(-target->getVelocity().y);
+            }
+        } else {
+            target->setYVel(-target->getVelocity().y);
+        }
+    }
+    if (target->getCenter().y - tRadius <= 0)
+    { // top boundary
+        target->setYCenter(0 + tRadius);
+        if (target->getVelocity().y < 0.05 && target->getVelocity().y > -0.05) {
+            target->setYVel(0);
+        } else {
+            target->setYVel(-target->getVelocity().y);
+        }
+    }
+
+    /*
+    // bottom boundary
+    double lineX1 = (double)width - 0.0;
+    double lineY1 = (double)height - (double)height;
+
+    double lineX2 = target->getCenter().x - 0.0;
+    double lineY2 = target->getCenter().y - (double)height;
+
+    double edgeLength = lineX1 * lineX1 + lineY1 * lineY1;
+
+    double t = (lineX1 * lineX2 + lineY1 * lineY2) / edgeLength;
+
+    double closestPointX = 0.0 + t * lineX1;
+    double closestPointY = (double)height + t * lineY1 + 5;
+
+    staticWallCollision(target, closestPointX, closestPointY);
+
+    // top boundary
+    lineX1 = (double)width - 0.0;
+    lineY1 = 0.0 - 0.0;
+
+    lineX2 = target->getCenter().x - 0.0;
+    lineY2 = target->getCenter().y - 0.0;
+
+    edgeLength = lineX1 * lineX1 + lineY1 * lineY1;
+
+    t = (lineX1 * lineX2 + lineY1 * lineY2) / edgeLength;
+
+    closestPointX = 0.0 + t * lineX1;
+    closestPointY = 0.0 + t * lineY1 + 5;
+
+    staticWallCollision(target, closestPointX, closestPointY);
+
+    // left boundary
+    lineX1 = 0.0 - 0.0;
+    lineY1 = (double)height - 0.0;
+
+    lineX2 = target->getCenter().x - 0.0;
+    lineY2 = target->getCenter().y - 0.0;
+
+    edgeLength = lineX1 * lineX1 + lineY1 * lineY1;
+
+    t = (lineX1 * lineX2 + lineY1 * lineY2) / edgeLength;
+
+    closestPointX = 0.0 + t * lineX1;
+    closestPointY = 0.0 + t * lineY1 + 5;
+
+    staticWallCollision(target, closestPointX, closestPointY);
+
+    // right boundary
+    lineX1 = (double)width - (double)width;
+    lineY1 = (double)height - 0.0;
+
+    lineX2 = target->getCenter().x - (double)width;
+    lineY2 = target->getCenter().y - 0.0;
+
+    edgeLength = lineX1 * lineX1 + lineY1 * lineY1;
+
+    t = (lineX1 * lineX2 + lineY1 * lineY2) / edgeLength;
+
+    closestPointX = (double)width + t * lineX1;
+    closestPointY = 0.0 + t * lineY1 + 5;
+
+    staticWallCollision(target, closestPointX, closestPointY);
+*/
 }
 
 void PhysicsManager::moveObject(Circle* target) {
@@ -71,54 +207,26 @@ void PhysicsManager::moveObject(Circle* target) {
 
                     // Elastic collision (computes new velocities)
                     elasticCollision(target, sCircle);
-                    
-                    // Set and check if the new values are within the borders of the screen
-                    Vec2<int> sNewPos = sCircle->getCenter() + sCircle->getVelocity() * m_dt;
-                    if (sNewPos.x + sRadius < width && sNewPos.x - sRadius > 0 && sNewPos.y - sRadius > 0 && sNewPos.y + sRadius < height) {
-                        sCircle->setCenter(sNewPos);
-                    }
-                    if (sNewPos.x + sRadius >= width) { // right boundary
-                        sCircle->setXCenter(width - sRadius - 2);
-                        sCircle->setXVel(-sCircle->getVelocity().x);
-                    }
-                    if (sNewPos.x - sRadius <= 0) { // left boundary
-                        sCircle->setXCenter(0 + sRadius + 2);
-                        sCircle->setXVel(-sCircle->getVelocity().x);
-                    }
-                    if (sNewPos.y + sRadius >= height) { // bottom boundary
-                        sCircle->setYCenter(height - sRadius - 2);
-                        sCircle->setYVel(-sCircle->getVelocity().y);
-                    }
-                    if (sNewPos.y - sRadius <= 0) { // top boundary
-                        sCircle->setYCenter(0 + sRadius + 2);
-                        sCircle->setYVel(-sCircle->getVelocity().y);
-                    }
+  
+                    // Wall collision (computes new velocities)
+                    wallCircularCollision(sCircle);
 
-                    Vec2<int> tNewPos = target->getCenter() + target->getVelocity()*m_dt;
-                    if (tNewPos.x + tRadius < width && tNewPos.x - tRadius > 0 && tNewPos.y - tRadius > 0 && tNewPos.y + tRadius < height)
-                    {
-                        target->setCenter(tNewPos);
-                    }
-                    if (tNewPos.x + tRadius >= width)
-                    { // right boundary
-                        target->setXCenter(width - tRadius - 2);
-                        target->setXVel(-target->getVelocity().x);
-                    }
-                    if (tNewPos.x - tRadius <= 0)
-                    { // left boundary
-                        target->setXCenter(0 + tRadius + 2);
-                        target->setXVel(-target->getVelocity().x);
-                    }
-                    if (tNewPos.y + tRadius >= height)
-                    { // bottom boundary
-                        target->setYCenter(height - tRadius - 2);
-                        target->setYVel(-target->getVelocity().y);
-                    }
-                    if (tNewPos.y - tRadius <= 0)
-                    { // top boundary
-                        target->setYCenter(0 + tRadius + 2);
-                        target->setYVel(-target->getVelocity().y);
-                    }
+                    Vec2<double> sNewPos = Vec2<double>(0, 0);
+                    Vec2<double> sNewVel = Vec2<double>(0, 0);
+                    velocityVerlet(sNewPos, sNewVel, sCircle);
+                    sCircle->setCenter(sNewPos);
+                    sCircle->setXVel(sNewVel.x);
+                    sCircle->setYVel(sNewVel.y);
+
+                    // Wall collision (computes new velocities)
+                    wallCircularCollision(target);
+
+                    Vec2<double> tNewPos = Vec2<double>(0, 0);
+                    Vec2<double> tNewVel = Vec2<double>(0, 0);
+                    velocityVerlet(tNewPos, tNewVel, target);
+                    target->setCenter(tNewPos);
+                    target->setXVel(tNewVel.x);
+                    target->setYVel(tNewVel.y);
 
                     // Static collision resolution
                     if (checkCircularCollision(target, sCircle)) {
@@ -141,31 +249,61 @@ void PhysicsManager::moveObject(Circle* target) {
 
     /* Check boundary contraints only if there was no collision */
     if (!haveICollided) {
-        Vec2<int> tNewPos = target->getCenter() + target->getVelocity() * m_dt;
-        if (tNewPos.x + tRadius < width && tNewPos.x - tRadius > 0 && tNewPos.y - tRadius > 0 && tNewPos.y + tRadius < height)
+        // Wall collision (computes new velocities)
+        wallCircularCollision(target);
+
+        Vec2<double> tNewPos = Vec2<double>(0, 0);
+        Vec2<double> tNewVel = Vec2<double>(0, 0);
+        velocityVerlet(tNewPos, tNewVel, target);
+
+        Vec2<double> dv = Vec2<double>(0, 0);
+        Vec2<int> dx = Vec2<int>(0, 0);
+
+        // DEBUG computations
+        if (engine_ptr->getWindowManager()->getDebugStatus()) {
+            dv = tNewVel - target->getVelocity();
+
+            dx.x = (int)(tNewPos.x - target->getCenter().x);
+            dx.y = (int)(tNewPos.y - target->getCenter().y);
+        }
+
+        target->setXCenter(tNewPos.x);
+        target->setYCenter(tNewPos.y);
+        target->setXVel(tNewVel.x);
+        target->setYVel(tNewVel.y);
+
+        // DEBUG output
+        if(engine_ptr->getWindowManager()->getDebugStatus()) {
+            std::cout << "velocity: " << target->getVelocity() << "\t dv: " << dv << "\t position: " << target->getCenter() << "\t dx: " << dx << std::endl;
+        }
+    }
+}
+
+void PhysicsManager::velocityVerlet(Vec2<double>& newPos, Vec2<double>& newVel, Circle* a) {
+    // Implement half stepping
+    double newVXhalf = a->getVelocity().x;
+    double newX = a->getCenter().x + m_dt * newVXhalf;
+    double newVX = (1 - m_uni_drag) * newVXhalf;
+    
+    double newVYhalf = a->getVelocity().y + 0.5 * m_dt * m_gg;
+    double newY = a->getCenter().y + m_dt * newVYhalf;
+    double newVY = (1 - m_uni_drag) * (newVYhalf + 0.5 * m_dt * m_gg);
+
+    if (m_gg > 0) {
+        if (newVX < 0.1 && newVX > -0.1) {
+            newVX = 0;
+        }
+        
+        if (newVY < 0.13 && newVY > -0.13)
         {
-            target->setCenter(tNewPos);
+            newVY = 0;
         }
-        if (tNewPos.x + tRadius >= width)
-        { // right boundary
-            target->setXCenter(width - tRadius - 2);
-            target->setXVel(-target->getVelocity().x);
-        }
-        if (tNewPos.x - tRadius <= 0)
-        { // left boundary
-            target->setXCenter(0 + tRadius + 2);
-            target->setXVel(-target->getVelocity().x);
-        }
-        if (tNewPos.y + tRadius >= height)
-        { // bottom boundary
-            target->setYCenter(height - tRadius - 2);
-            target->setYVel(-target->getVelocity().y);
-        }
-        if (tNewPos.y - tRadius <= 0)
-        { // top boundary
-            target->setYCenter(0 + tRadius + 2);
-            target->setYVel(-target->getVelocity().y);
+        else if (newVY < 0.35 && newVY > -0.35) {
+            // super drag
+            newVY = 0.6 * newVY;
         }
     }
 
+    newPos.x = newX; newPos.y = newY;
+    newVel.x = newVX; newVel.y = newVY;
 }

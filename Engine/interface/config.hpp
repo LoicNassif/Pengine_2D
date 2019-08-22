@@ -18,6 +18,14 @@ namespace pe {
         e.getWindowManager()->setWindowColor(std::move(c));
     }
 
+    void setGravity(const Engine &e, double g) {
+        e.getPhysicsManager()->setGravity(g);
+    }
+
+    void setUniformDrag(const Engine &e, double d) {
+        e.getPhysicsManager()->setUniformDrag(d);
+    }
+
     void pushShape(const Engine &e, Shape* s) {
         e.getPhysicsManager()->objects.push_back(s);
     }
@@ -40,7 +48,7 @@ namespace pe {
                 int mass = obj["mass"];
 
                 if (shape_type == "Circle" || shape_type == "circle") {
-                    Circle *c = new Circle(Vec2<int>(x_pos, y_pos), size, Vec2<double>(x_vel, y_vel), mass);
+                    Circle *c = new Circle(Vec2<double>(x_pos, y_pos), size, Vec2<double>(x_vel, y_vel), mass);
                     pushShape(e, c);
                 }
             }

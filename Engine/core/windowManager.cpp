@@ -29,7 +29,7 @@ void WindowManager::render() {
 
         if (mDebug) {
             /* Render the center for debug purposes */
-            SDL_RenderDrawPoint(mRenderer, s->getCenter().x, s->getCenter().y);
+            SDL_RenderDrawPoint(mRenderer, (int)s->getCenter().x, (int)s->getCenter().y);
         }
     }
 
@@ -43,12 +43,27 @@ void WindowManager::render() {
 
 void WindowManager::update(SDL_Event& e) {
     while (SDL_PollEvent(&e) != 0) {
-        handleEvent(e);
-    }
+        updatePaused(e);
 
-    for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
-        engine_ptr->getPhysicsManager()->moveObject(s);
-        //s->move(mWidth, mHeight, engine_ptr->getPhysicsManager()->objects);
+        if (!isPaused)
+        {
+            handleEvent(e);
+        }
+    }
+    
+    if (!isPaused) {
+        for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
+            if (static_cast<Circle*>(shape_ptr) != s) {
+                engine_ptr->getPhysicsManager()->moveObject(s);
+            }
+        }
+    }
+}
+
+void WindowManager::updatePaused(const SDL_Event& e) {
+    /* Check for pausing input */
+    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_p) {
+        isPaused = !isPaused;
     }
 }
 
@@ -60,8 +75,8 @@ void WindowManager::handleEvent(const SDL_Event& e) {
     {
         for (Shape *s : engine_ptr->getPhysicsManager()->objects)
         {
-            if (engine_ptr->getPhysicsManager()->checkCircularCollision(s->getCenter().x, 
-                s->getCenter().y, mouse.getXPos(), mouse.getYPos(), s->getRadius()))
+            if (engine_ptr->getPhysicsManager()->checkCircularCollision((int)s->getCenter().x, 
+                (int)s->getCenter().y, mouse.getXPos(), mouse.getYPos(), s->getRadius()))
             {    
                 prevMousePos.x = mouse.getXPos();
                 prevMousePos.y = mouse.getYPos();         
@@ -81,6 +96,8 @@ void WindowManager::handleEvent(const SDL_Event& e) {
         {
             shape_ptr->setXCenter(mouse.getXPos());
             shape_ptr->setYCenter(mouse.getYPos());
+            shape_ptr->setXVel(0);
+            shape_ptr->setYVel(0);
         }
     }
     mouse.update(e);
