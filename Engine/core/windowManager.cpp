@@ -4,6 +4,8 @@
 void WindowManager::startUp() {
     initWindow("Pengine", mWidth, mHeight, true);
     createRenderer();
+
+    collTree = new Quadtree(0, Vec2<int>(0,0), mWidth, mHeight);
 }
 
 void WindowManager::shutDown() {
@@ -11,6 +13,9 @@ void WindowManager::shutDown() {
     SDL_DestroyRenderer(mRenderer);
     mWindow = NULL;
     mRenderer = NULL;
+
+    collTree->clear();
+    delete collTree;
 }
 
 void WindowManager::render() {
@@ -52,9 +57,28 @@ void WindowManager::update(SDL_Event& e) {
     }
     
     if (!isPaused) {
-        for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
-            if (static_cast<Circle*>(shape_ptr) != s) {
-                engine_ptr->getPhysicsManager()->moveObject(s);
+        if (quadtreeOpt) {
+            collTree->clear();
+            for (Shape* s: engine_ptr->getPhysicsManager()->objects) {
+                collTree->insert(s);
+            }
+
+            std::vector<Shape*> targetObjs;
+            for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
+                targetObjs.erase(targetObjs.begin(), targetObjs.end());
+                collTree->retrieve(targetObjs, s);
+
+                if (static_cast<Circle*>(shape_ptr) != s) {
+                    engine_ptr->getPhysicsManager()->moveObject(dynamic_cast<Circle*>(s), targetObjs);
+                }
+            }
+        } else {
+            for (Shape *s : engine_ptr->getPhysicsManager()->objects)
+            {
+                if (static_cast<Circle *>(shape_ptr) != s)
+                {
+                    engine_ptr->getPhysicsManager()->moveObject(s);
+                }
             }
         }
     }

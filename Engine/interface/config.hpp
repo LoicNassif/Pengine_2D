@@ -57,5 +57,9 @@ namespace pe {
 
     void setDEBUG(const Engine &e) {
         e.getWindowManager()->setDebugMode(true);
+    }
+
+    void disableQuadTreeOpt(const Engine &e) {
+        e.getWindowManager()->disableQuadTreeOpt();
     } 
 }

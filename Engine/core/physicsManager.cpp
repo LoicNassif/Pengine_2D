@@ -192,6 +192,100 @@ void PhysicsManager::wallCircularCollision(Circle* target) {
 */
 }
 
+void PhysicsManager::moveObject(Circle* target, const std::vector<Shape*>& targets) {
+    bool haveICollided = false;
+    int width = engine_ptr->getWindowManager()->getWindowWidth();
+    int height = engine_ptr->getWindowManager()->getWindowHeight();
+    int tRadius = target->getRadius();
+    /* Check object contraints */
+    for (Shape *s : targets)
+    {
+        if (target != s)
+        {
+            if (Circle *sCircle = dynamic_cast<Circle *>(s))
+            { // Circle-Circle collision
+                if (checkCircularCollision(target, sCircle))
+                {
+                    haveICollided = true;
+                    int sRadius = sCircle->getRadius();
+
+                    // Elastic collision (computes new velocities)
+                    elasticCollision(target, sCircle);
+
+                    // Wall collision (computes new velocities)
+                    wallCircularCollision(sCircle);
+
+                    Vec2<double> sNewPos = Vec2<double>(0, 0);
+                    Vec2<double> sNewVel = Vec2<double>(0, 0);
+                    velocityVerlet(sNewPos, sNewVel, sCircle);
+                    sCircle->setCenter(sNewPos);
+                    sCircle->setXVel(sNewVel.x);
+                    sCircle->setYVel(sNewVel.y);
+
+                    // Wall collision (computes new velocities)
+                    wallCircularCollision(target);
+
+                    Vec2<double> tNewPos = Vec2<double>(0, 0);
+                    Vec2<double> tNewVel = Vec2<double>(0, 0);
+                    velocityVerlet(tNewPos, tNewVel, target);
+                    target->setCenter(tNewPos);
+                    target->setXVel(tNewVel.x);
+                    target->setYVel(tNewVel.y);
+
+                    // Static collision resolution
+                    if (checkCircularCollision(target, sCircle))
+                    {
+                        double distance = std::sqrt((sCircle->getCenter().x - target->getCenter().x) * (sCircle->getCenter().x - target->getCenter().x) + (sCircle->getCenter().y - target->getCenter().y) * (sCircle->getCenter().y - target->getCenter().y));
+                        double overlap = 0.5 * (distance - tRadius - sRadius);
+
+                        // Displace target circle
+                        target->setXCenter(target->getCenter().x - overlap * (target->getCenter().x - sCircle->getCenter().x) / distance);
+                        target->setYCenter(target->getCenter().y - overlap * (target->getCenter().y - sCircle->getCenter().y) / distance);
+
+                        // Displace other circle
+                        sCircle->setXCenter(sCircle->getCenter().x + overlap * (target->getCenter().x - sCircle->getCenter().x) / distance);
+                        sCircle->setYCenter(sCircle->getCenter().y + overlap * (target->getCenter().y - sCircle->getCenter().y) / distance);
+                    }
+                }
+            }
+        }
+    }
+
+    /* Check boundary contraints only if there was no collision */
+    if (!haveICollided)
+    {
+        // Wall collision (computes new velocities)
+        wallCircularCollision(target);
+
+        Vec2<double> tNewPos = Vec2<double>(0, 0);
+        Vec2<double> tNewVel = Vec2<double>(0, 0);
+        velocityVerlet(tNewPos, tNewVel, target);
+
+        Vec2<double> dv = Vec2<double>(0, 0);
+        Vec2<int> dx = Vec2<int>(0, 0);
+
+        // DEBUG computations
+        if (engine_ptr->getWindowManager()->getDebugStatus())
+        {
+            dv = tNewVel - target->getVelocity();
+
+            dx.x = (int)(tNewPos.x - target->getCenter().x);
+            dx.y = (int)(tNewPos.y - target->getCenter().y);
+        }
+
+        target->setXCenter(tNewPos.x);
+        target->setYCenter(tNewPos.y);
+        target->setXVel(tNewVel.x);
+        target->setYVel(tNewVel.y);
+
+        // DEBUG output
+        if (engine_ptr->getWindowManager()->getDebugStatus())
+        {
+            std::cout << "velocity: " << target->getVelocity() << "\t dv: " << dv << "\t position: " << target->getCenter() << "\t dx: " << dx << std::endl;
+        }
+    }
+}
+
 void PhysicsManager::moveObject(Circle* target) {
     bool haveICollided = false;
     int width = engine_ptr->getWindowManager()->getWindowWidth();

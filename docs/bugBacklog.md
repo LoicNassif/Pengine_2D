@@ -1,5 +1,15 @@
 # Bug Backlog
 
+## August 23th, 2019
+
+### Resolved
+- Build a quadtree to localize and optimize physics computations
+
+### Unresolved
+- Need error safeguards for window start-up
+- "Black Hole" appears at very rare occasions, which causes objects to disappear
+- Change velocity Verlet method to RK4
+
 ## August 22th, 2019
 
 ### Resolved

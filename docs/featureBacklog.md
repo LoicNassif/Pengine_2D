@@ -12,6 +12,8 @@
 - Add logging system (e.g. Pantheios)
 - Allow for more customization at runtime (e.g. set size of window, ball colour)
 - Implement Python script to generate initial conditions
+- Implement FPS counter
+- Create a basic text renderer
 
 ### Future Releases
 - Local gravity (e.g. N-body)

@@ -4,6 +4,7 @@
 #include <vector>
 #include "../../renderer/headers/shape.hpp"
 #include "../../interface/mouse.hpp"
+#include "../../math/quadtree.hpp"
 #include "engine.hpp"
 
 enum class Color { white, black };
@@ -39,8 +40,15 @@ public:
     inline void setWindowHeight(int h) { mHeight = h; }
     inline void setWindowColor(Color&& c) { mColor = c; }
     inline void setDebugMode(bool flag) { mDebug = flag; }
+    inline void disableQuadTreeOpt() { quadtreeOpt = false; }
 
 private :
+    // quadtree flag
+    bool quadtreeOpt = true;
+
+    // Hold a quadtree for collision detection
+    Quadtree* collTree;
+
     // log on previous mouse position
     Vec2<double> prevMousePos = Vec2<double>(0,0);
 

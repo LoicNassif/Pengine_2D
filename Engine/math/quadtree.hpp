@@ -16,7 +16,7 @@ class Quadtree {
         void clear() {
             objects.erase(objects.begin(), objects.end());
         
-            for (int i=0; i<children.size(); i++) {
+            for (size_t i=0; i<children.size(); i++) {
                 if (children[i] != nullptr) {
                     children[i]->clear();
                     delete children[i];
@@ -91,15 +91,14 @@ class Quadtree {
 
             // Index was -1 or node is leaf, so add the object here
             objects.push_back(target);
-
             // Check if we have to split the area into children
             if (objects.size() > max_size && current_level < max_depth) {
-                if (children[0] != nullptr) {
+                if (children[0] == nullptr) {
                     split();
                 }
                 
                 // Redistribute objects to the new trees
-                int i=0;
+                size_t i=0;
                 while (i<objects.size()) {
                     int index = getIndex(objects[i]);
                     if (index != -1) {
@@ -121,16 +120,16 @@ class Quadtree {
                 children[index]->retrieve(listTargets, target);
             }
 
-            for (int i=0; i<objects.size(); i++) {
+            for (size_t i=0; i<objects.size(); i++) {
                 listTargets.push_back(objects[i]);
             }
         }
 
     private:
-        int max_depth = 50;
-        int max_size = 5;
-        int current_level;
-        std::array<Quadtree*, 4> children;
+        size_t max_depth = 50;
+        size_t max_size = 5;
+        size_t current_level;
+        std::array<Quadtree*, 4> children = {nullptr, nullptr, nullptr, nullptr};
         std::vector<Shape*> objects;
         Vec2<int> init_point;
         int width;

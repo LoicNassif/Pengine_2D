@@ -32,6 +32,7 @@ class PhysicsManager {
 
         void moveObject(Circle* target);
         void moveObject(Shape* target);
+        void moveObject(Circle *target, const std::vector<Shape *>& targets);
 
         // Setters
         void setTimeStep(double dt) { m_dt = dt; } 
