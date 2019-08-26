@@ -5,15 +5,19 @@ Engine::Engine() {
     // Create Managers
     mWindowManager = std::unique_ptr<WindowManager>(new WindowManager(this));
     mPhysicsManager = std::unique_ptr<PhysicsManager>(new PhysicsManager(this));
+    mTextureManager = std::unique_ptr<TextureManager>(new TextureManager(this));
 }
 
 void Engine::startUp() {
     // Start up the managers
     mWindowManager->startUp();
-    std::cout << "\t window manager start up complete." << std::endl;
+    std::cout << "\t window manager start up complete.\n";
     
     mPhysicsManager->startUp();
-    std::cout << "\t physics manager start up complete." << std::endl;
+    std::cout << "\t physics manager start up complete.\n";
+
+    mTextureManager->startUp();
+    std::cout << "\t texture manager start up complete.\n";
 }
 
 void Engine::run() {
@@ -31,8 +35,11 @@ void Engine::run() {
 
 void Engine::shutDown() {
     mWindowManager->shutDown();
-    std::cout << "\t window manager shut down complete." << std::endl;
+    std::cout << "\t window manager shut down complete.\n";
 
     mPhysicsManager->shutDown();
-    std::cout << "\t physics manager shut down complete." << std::endl;
+    std::cout << "\t physics manager shut down complete.\n";
+
+    mTextureManager->shutDown();
+    std::cout << "\t texture manager shut down complete.\n";
 }

@@ -1,5 +1,19 @@
 # Feature Backlog
 
+## August 26th, 2019
+
+### Implemented
+- Create a basic text renderer
+
+### This Coming Release
+- Add Squares
+- Add Triangles
+- Add documentation (e.g. Doxygen)
+- Add logging system (e.g. Pantheios)
+- Allow for more customization at runtime (e.g. set size of window, ball colour)
+- Implement Python script to generate initial conditions
+- Implement FPS counter
+
 ## August 20th, 2019
 
 ### Implemented

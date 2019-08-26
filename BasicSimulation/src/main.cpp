@@ -39,6 +39,8 @@ int main()
     pe::setGravity(e, gravity);
     pe::setUniformDrag(e, uni_drag);
 
+
+    pe::addText(e, "testing", Color::white, "../fonts/Oswald-Light.ttf", 12, 50, 50);
     std::cout << "engine start-up completed." << std::endl;
 
     /* Engine main while-loop. */

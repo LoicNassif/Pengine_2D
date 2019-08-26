@@ -5,9 +5,11 @@
 
 #include "windowManager.hpp"
 #include "physicsManager.hpp"
+#include "textureManager.hpp"
 
 class WindowManager;
 class PhysicsManager;
+class TextureManager;
 
 class Engine {
     public:
@@ -30,8 +32,10 @@ class Engine {
         // Getters
         inline WindowManager *getWindowManager() const { return mWindowManager.get(); } 
         inline PhysicsManager *getPhysicsManager() const { return mPhysicsManager.get(); }
+        inline TextureManager *getTextureManager() const { return mTextureManager.get(); }
 
     private:
         std::unique_ptr<WindowManager> mWindowManager;
         std::unique_ptr<PhysicsManager> mPhysicsManager;
+        std::unique_ptr<TextureManager> mTextureManager;
 };

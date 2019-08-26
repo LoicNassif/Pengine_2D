@@ -38,6 +38,9 @@ void WindowManager::render() {
         }
     }
 
+    /* Render the text */
+    engine_ptr->getTextureManager()->render();
+
     if (mColor == Color::black)
         SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0xFF);
     else
