@@ -82,4 +82,8 @@ namespace pe {
             std::cout << "Success loading text: " << font << "\n";
         }
     }
+
+    void displayFPS(const Engine &e) {
+        e.getWindowManager()->setDisplayFPS();
+    }
 }

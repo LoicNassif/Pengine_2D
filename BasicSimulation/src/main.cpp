@@ -7,6 +7,8 @@ int main()
     Color c = Color::black;
     double gravity = 0;
     double uni_drag = 0;
+    int windowWidth = 250;
+    int windowHeight = 250;
     std::ifstream file("../data/config.json");
     if (file.is_open()) {
         json data;
@@ -15,6 +17,8 @@ int main()
         gravity = data["gravity"];
         uni_drag = data["uniform_drag"];
         std::string colour = data["colour"];
+        windowWidth = data["windowWidth"];
+        windowHeight = data["windowHeight"];
 
         if (colour == "White" || colour == "white") {
             c = Color::white;
@@ -25,8 +29,9 @@ int main()
 
     /* Pre start up configurations */
     // Window config
-    pe::setWindowDimensions(e, 1000, 500);
+    pe::setWindowDimensions(e, windowWidth, windowHeight);
     pe::setWindowColor(e, std::move(c));
+    pe::displayFPS(e);
     //pe::setDEBUG(e); // paints the centers, also some extra output  
 
     // Objects config

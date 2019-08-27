@@ -42,10 +42,11 @@ public:
     inline void setWindowColor(Color&& c) { mColor = c; }
     inline void setDebugMode(bool flag) { mDebug = flag; }
     inline void disableQuadTreeOpt() { quadtreeOpt = false; }
+    inline void setDisplayFPS() { displayFPS = true; }
 
 private :
     // FPS display flag
-    bool displayFPS = true;
+    bool displayFPS = false;
 
     // quadtree flag
     bool quadtreeOpt = true;
