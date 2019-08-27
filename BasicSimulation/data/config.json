@@ -1,6 +1,6 @@
 {
     "gravity" : 0.2,
-    "uniform_drag": 0.005,
+    "uniform_drag": 0.002,
     "colour": "black",
     "windowWidth": 1000,
     "windowHeight": 500

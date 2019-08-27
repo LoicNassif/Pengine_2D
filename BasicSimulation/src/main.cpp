@@ -35,7 +35,8 @@ int main()
     //pe::setDEBUG(e); // paints the centers, also some extra output  
 
     // Objects config
-    pe::processJSON(e, "../data/objects.json");
+    //pe::processJSON(e, "../data/objects.json");
+    pe::randomCircles(e, 90);
 
     /* Engine start up. Initializes all managers. */
     e.startUp();
@@ -43,6 +44,7 @@ int main()
     /* Post start up configurations (e.g. physics settings) */
     pe::setGravity(e, gravity);
     pe::setUniformDrag(e, uni_drag);
+    //pe::disableQuadTreeOpt(e);
     /* Add some optional text */
     // pe::addText(e, "testing", Color::white, "../fonts/Oswald-Light.ttf", 12, 50, 50);
     

@@ -5,6 +5,7 @@
 #include <utility>
 #include <fstream>
 #include <iostream>
+#include <random>
 
 using json = nlohmann::json;
 
@@ -85,5 +86,33 @@ namespace pe {
 
     void displayFPS(const Engine &e) {
         e.getWindowManager()->setDisplayFPS();
+    }
+
+    void randomCircles(const Engine &e, int n) {
+        std::random_device dev;
+        std::mt19937 rng(dev());
+        std::uniform_int_distribution<int> dist_size(5, 15);
+        std::normal_distribution<double> dist_mass{3, 1};
+        std::uniform_real_distribution<double> dist_init_vel{-4, 4};
+
+        int width = e.getWindowManager()->getWindowWidth();
+        int height = e.getWindowManager()->getWindowHeight();
+
+        int count = 0;
+        for (int i=0; i<width; i+=45) {
+            for (int j=0; j<height; j+=45) {
+                if (count < n) {
+                    int mass = (int)dist_mass(rng);
+                    while (mass < 0) {
+                        mass = (int)dist_mass(rng);
+                    }
+                    Circle *c = new Circle(Vec2<double>(i, j), dist_size(rng), 
+                                        Vec2<double>(dist_init_vel(rng), dist_init_vel(rng)), mass);
+                    pushShape(e, c);
+                }
+                count++;
+            }
+
+        }
     }
 }
