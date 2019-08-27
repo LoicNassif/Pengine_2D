@@ -4,15 +4,20 @@
 
 ### Implemented
 - Create a basic text renderer
+- Implement FPS counter
+- Allow for more customization at runtime (e.g. set size of window, ball colour)
 
 ### This Coming Release
-- Add Squares
-- Add Triangles
-- Add documentation (e.g. Doxygen)
-- Add logging system (e.g. Pantheios)
-- Allow for more customization at runtime (e.g. set size of window, ball colour)
 - Implement Python script to generate initial conditions
-- Implement FPS counter
+
+### Future Releases
+- Add logging system (e.g. Pantheios)
+- Add documentation (e.g. Doxygen)
+- Add Triangles
+- Add Squares
+- Local gravity (e.g. N-body)
+- Fluid Simulation
+- Destructive collisions
 
 ## August 20th, 2019
 
