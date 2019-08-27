@@ -1,4 +1,4 @@
-#include "../Engine/interface/config.hpp"
+#include "../Engine/utils/config.hpp"
 
 #include <iostream>
 
@@ -25,7 +25,7 @@ int main()
 
     /* Pre start up configurations */
     // Window config
-    pe::setWindowDimensions(e, 200, 500);
+    pe::setWindowDimensions(e, 1000, 500);
     pe::setWindowColor(e, std::move(c));
     //pe::setDEBUG(e); // paints the centers, also some extra output  
 
@@ -38,9 +38,9 @@ int main()
     /* Post start up configurations (e.g. physics settings) */
     pe::setGravity(e, gravity);
     pe::setUniformDrag(e, uni_drag);
-
-
-    pe::addText(e, "testing", Color::white, "../fonts/Oswald-Light.ttf", 12, 50, 50);
+    /* Add some optional text */
+    // pe::addText(e, "testing", Color::white, "../fonts/Oswald-Light.ttf", 12, 50, 50);
+    
     std::cout << "engine start-up completed." << std::endl;
 
     /* Engine main while-loop. */

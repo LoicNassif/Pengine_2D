@@ -7,16 +7,17 @@ void TextureManager::startUp() {
 }
 
 void TextureManager::shutDown() {
-    for (auto t : textures) {
-        SDL_DestroyTexture(t.first);
+    for (size_t i=0; i<textures.size(); i++) {
+        SDL_DestroyTexture(std::get<0>(textures[i]));
     }
 }
 
-void TextureManager::render() {
-    for (auto t : textures) {
+void TextureManager::render(SDL_Renderer* r) {
+    for (size_t i=0; i<textures.size(); i++) {
         // Set rendering space and render to screen
-        SDL_Rect renderQuad = { std::get<2>(t.second), std::get<3>(t.second), std::get<0>(t.second), std::get<1>(t.second)};
-        SDL_RenderCopy(engine_ptr->getWindowManager()->getRenderer(), t.first, NULL, &renderQuad);
+        SDL_Rect renderQuad = { std::get<2>(std::get<1>(textures[i])), std::get<3>(std::get<1>(textures[i])), 
+                                std::get<0>(std::get<1>(textures[i])), std::get<1>(std::get<1>(textures[i]))};
+        SDL_RenderCopy(r, std::get<0>(textures[i]), NULL, &renderQuad);
     }
 }
 
@@ -26,6 +27,16 @@ void TextureManager::update(SDL_Event& e) {
 
 void TextureManager::handleEvent(const SDL_Event& e) {
 
+}
+
+void TextureManager::clearTexture(const std::string& s) {
+    for (size_t i=0; i<textures.size(); i++) {
+        if (std::get<4>(std::get<1>(textures[i])) == s) {
+            SDL_DestroyTexture(std::get<0>(textures[i]));
+            textures.erase(textures.begin() + i);
+            break;
+        }
+    }
 }
 
 bool TextureManager::loadRenderedText(std::string textureText, SDL_Color textColor, TTF_Font* font, int posx, int posy) {
@@ -48,7 +59,7 @@ bool TextureManager::loadRenderedText(std::string textureText, SDL_Color textCol
     int height = textSurface->h;
 
     // Add the texture into the table
-    textures.insert({ texture, std::make_tuple(width, height, posx, posy) });
+    textures.push_back(std::make_tuple( texture, std::make_tuple(width, height, posx, posy, textureText )));
 
     return true;
 }

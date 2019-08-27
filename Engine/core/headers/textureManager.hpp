@@ -18,9 +18,10 @@ class TextureManager {
         void shutDown();
 
         // Update and handle events
-        void render();
+        void render(SDL_Renderer* r);
         void update(SDL_Event& e);
         void handleEvent(const SDL_Event& e);
+        void clearTexture(const std::string& s);
 
         bool loadRenderedText(std::string textureText, SDL_Color textColor, TTF_Font* font, int posx, int posy);
 
@@ -34,5 +35,5 @@ class TextureManager {
         const Engine* engine_ptr = nullptr;
 
         // Hold a list of textures to be rendered with their dimensions
-        std::unordered_map<SDL_Texture*, std::tuple<int, int, int, int>> textures;
+        std::vector<std::tuple<SDL_Texture*, std::tuple<int, int, int, int, std::string>>> textures;
 };

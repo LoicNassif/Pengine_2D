@@ -28,6 +28,9 @@ void WindowManager::render() {
         SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0xFF);
     }
 
+    /* Render the text */
+    engine_ptr->getTextureManager()->render(mRenderer);
+
     /* Render all objects */
     for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
         s->render(*mRenderer);
@@ -37,9 +40,6 @@ void WindowManager::render() {
             SDL_RenderDrawPoint(mRenderer, (int)s->getCenter().x, (int)s->getCenter().y);
         }
     }
-
-    /* Render the text */
-    engine_ptr->getTextureManager()->render();
 
     if (mColor == Color::black)
         SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0xFF);
@@ -193,7 +193,7 @@ void WindowManager::handleEvent(const SDL_Event& e) {
 
 bool WindowManager::initWindow(const char *title, int screen_width, int screen_height, bool shown) {
     // Create Window
-    mWindow = SDL_CreateWindow("Pengine v0.1", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, 
+    mWindow = SDL_CreateWindow("Pengine v0.2.1", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, 
                                 screen_height, SDL_WINDOW_SHOWN);
 
     // Grab window indentifier

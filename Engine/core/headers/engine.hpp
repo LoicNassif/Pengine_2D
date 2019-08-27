@@ -6,6 +6,7 @@
 #include "windowManager.hpp"
 #include "physicsManager.hpp"
 #include "textureManager.hpp"
+#include "../../utils/timer.hpp"
 
 class WindowManager;
 class PhysicsManager;
@@ -38,4 +39,10 @@ class Engine {
         std::unique_ptr<WindowManager> mWindowManager;
         std::unique_ptr<PhysicsManager> mPhysicsManager;
         std::unique_ptr<TextureManager> mTextureManager;
+
+        // FPS timer
+        Timer FPStimer;
+
+        // FPS string
+        std::string FPStext = "";
 };

@@ -3,7 +3,7 @@
 #undef main
 #include <vector>
 #include "../../renderer/headers/shape.hpp"
-#include "../../interface/mouse.hpp"
+#include "../../utils/mouse.hpp"
 #include "../../math/quadtree.hpp"
 #include "engine.hpp"
 
@@ -34,6 +34,7 @@ public:
     inline int getWindowHeight() { return mHeight; }
     bool getDebugStatus() { return mDebug; }
     inline SDL_Renderer* getRenderer() { return mRenderer; }
+    bool getFPSflag() { return displayFPS; }
 
     // Setters
     inline void setWindowWidth(int w) { mWidth = w; }
@@ -43,6 +44,9 @@ public:
     inline void disableQuadTreeOpt() { quadtreeOpt = false; }
 
 private :
+    // FPS display flag
+    bool displayFPS = true;
+
     // quadtree flag
     bool quadtreeOpt = true;
 
