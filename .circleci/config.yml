@@ -5,4 +5,15 @@ jobs:
       - image: loicnassif/ubuntu-gcc-clang:1.0
     steps:
       - checkout
-      - run: cd BasicSimulation/ && mkdir build && cd build/ && cmake -G "Unix Makefiles" -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++ ../ && make
+      - run: mkdir test-reports
+      - run: 
+          name: Cmake Generate
+          command: cd BasicSimulation/ && mkdir build && cd build/ && cmake -G "Unix Makefiles" -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++ ../
+      - run:
+          name: Build
+          command: make
+      - store_artifacts:
+          path: test-reports/
+          destination: tr1
+      - store_test_results:
+          path: test-reports/
