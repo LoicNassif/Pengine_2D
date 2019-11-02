@@ -1,4 +1,5 @@
 #include "headers/physicsManager.hpp"
+#include <cmath>
 
 void PhysicsManager::startUp() {
     

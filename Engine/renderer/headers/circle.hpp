@@ -5,6 +5,7 @@
 class Circle : public Shape {
     public:
         Circle(Vec2<double>& center, int r, Vec2<double>& v, int m) : mCenter(center), mr(r), mv(v), mMass(m) { }
+        Circle(Vec2<double> &&center, int r, Vec2<double> &&v, int m) : mCenter(center), mr(r), mv(v), mMass(m) {}
         ~Circle() {}
 
         /* Render */

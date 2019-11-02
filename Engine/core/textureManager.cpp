@@ -1,9 +1,9 @@
 #include "./headers/textureManager.hpp"
 
 void TextureManager::startUp() {
-    if (TTF_Init() < 0) {
-        std::cout << "ERROR: Could not initialize SDL TTF\n";
-    }
+    // if (TTF_Init() < 0) {
+    //     std::cout << "ERROR: Could not initialize SDL TTF\n";
+    // }
 }
 
 void TextureManager::shutDown() {
@@ -39,30 +39,30 @@ void TextureManager::clearTexture(const std::string& s) {
     }
 }
 
-bool TextureManager::loadRenderedText(std::string textureText, SDL_Color textColor, TTF_Font* font, int posx, int posy) {
+// bool TextureManager::loadRenderedText(std::string textureText, SDL_Color textColor, TTF_Font* font, int posx, int posy) {
 
-    // Render text surface
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);
-    if (textSurface == NULL) {
-        std::cout << "Unable to render text surface. SDL_ttf ERROR: " << TTF_GetError() << "\n";
-        return false;
-    }
+//     // Render text surface
+//     SDL_Surface *textSurface = TTF_RenderText_Solid(font, textureText.c_str(), textColor);
+//     if (textSurface == NULL) {
+//         std::cout << "Unable to render text surface. SDL_ttf ERROR: " << TTF_GetError() << "\n";
+//         return false;
+//     }
 
-    // Create texture from surface pixels
-    auto texture = SDL_CreateTextureFromSurface(engine_ptr->getWindowManager()->getRenderer(), textSurface);
-    if (texture == NULL) {
-        std::cout << "Unable to create texture from rendered text. SDL ERROR: " << SDL_GetError() << "\n";
-        return false;
-    }
-    // Get image dimensions
-    int width = textSurface->w;
-    int height = textSurface->h;
+//     // Create texture from surface pixels
+//     auto texture = SDL_CreateTextureFromSurface(engine_ptr->getWindowManager()->getRenderer(), textSurface);
+//     if (texture == NULL) {
+//         std::cout << "Unable to create texture from rendered text. SDL ERROR: " << SDL_GetError() << "\n";
+//         return false;
+//     }
+//     // Get image dimensions
+//     int width = textSurface->w;
+//     int height = textSurface->h;
 
-    // Add the texture into the table
-    textures.push_back(std::make_tuple( texture, std::make_tuple(width, height, posx, posy, textureText )));
+//     // Add the texture into the table
+//     textures.push_back(std::make_tuple( texture, std::make_tuple(width, height, posx, posy, textureText )));
 
-    return true;
-}
+//     return true;
+// }
 
 void TextureManager::setColor(Uint8 red, Uint8 green, Uint8 blue) {
     // TODO

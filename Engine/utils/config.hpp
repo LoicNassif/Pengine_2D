@@ -1,7 +1,7 @@
 #pragma once
 #include "../core/headers/engine.hpp"
 #include "../renderer/headers/circle.hpp"
-#include <nlohmann/json.hpp>
+#include <json.hpp>
 #include <utility>
 #include <fstream>
 #include <iostream>
@@ -63,25 +63,25 @@ namespace pe {
         e.getWindowManager()->disableQuadTreeOpt();
     } 
 
-    void addText(const Engine &e, std::string text, Color c, std::string font, int size, int posx, int posy) {
-        SDL_Color colour = {255, 255, 255};
-        switch(c) {
-            case Color::black:
-                colour.b = 0;
-                colour.g = 0;
-                colour.r = 0;
-                break;
-            case Color::white:
-                break;
-        }
-        TTF_Font* f = TTF_OpenFont(font.c_str(), size);
-        if (f == nullptr) {
-            std::cout << "Could not load font\n";
-        }
-        if (e.getTextureManager()->loadRenderedText(text, colour, f, posx, posy)) {
-            std::cout << "Success loading text: " << font << "\n";
-        }
-    }
+    // void addText(const Engine &e, std::string text, Color c, std::string font, int size, int posx, int posy) {
+    //     SDL_Color colour = {255, 255, 255};
+    //     switch(c) {
+    //         case Color::black:
+    //             colour.b = 0;
+    //             colour.g = 0;
+    //             colour.r = 0;
+    //             break;
+    //         case Color::white:
+    //             break;
+    //     }
+    //     // TTF_Font* f = TTF_OpenFont(font.c_str(), size);
+    //     // if (f == nullptr) {
+    //     //     std::cout << "Could not load font\n";
+    //     // }
+    //     // if (e.getTextureManager()->loadRenderedText(text, colour, f, posx, posy)) {
+    //     //     std::cout << "Success loading text: " << font << "\n";
+    //     // }
+    // }
 
     void displayFPS(const Engine &e) {
         e.getWindowManager()->setDisplayFPS();

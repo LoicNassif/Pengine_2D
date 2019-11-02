@@ -1,5 +1,7 @@
 #pragma once
-#include <SDL2_ttf-2.0.15/SDL_ttf.h>
+#ifdef _WIN32
+    #include <SDL2_ttf-2.0.15/SDL_ttf.h>
+#endif
 #include <unordered_map>
 
 #include "engine.hpp"
@@ -23,7 +25,7 @@ class TextureManager {
         void handleEvent(const SDL_Event& e);
         void clearTexture(const std::string& s);
 
-        bool loadRenderedText(std::string textureText, SDL_Color textColor, TTF_Font* font, int posx, int posy);
+        // bool loadRenderedText(std::string textureText, SDL_Color textColor, TTF_Font* font, int posx, int posy);
 
         // Setters
         void setColor(Uint8 red, Uint8 green, Uint8 blue);

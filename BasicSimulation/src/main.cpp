@@ -1,4 +1,4 @@
-#include "../Engine/utils/config.hpp"
+#include "../../Engine/utils/config.hpp"
 
 #include <iostream>
 
@@ -36,6 +36,10 @@ int main()
 
     // Objects config
     pe::processJSON(e, "../data/objects.json");
+<<<<<<< Updated upstream
+=======
+    // pe::randomCircles(e, 90);
+>>>>>>> Stashed changes
 
     /* Engine start up. Initializes all managers. */
     e.startUp();
@@ -43,8 +47,12 @@ int main()
     /* Post start up configurations (e.g. physics settings) */
     pe::setGravity(e, gravity);
     pe::setUniformDrag(e, uni_drag);
+<<<<<<< Updated upstream
     /* Add some optional text */
     // pe::addText(e, "testing", Color::white, "../fonts/Oswald-Light.ttf", 12, 50, 50);
+=======
+    //pe::disableQuadTreeOpt(e);
+>>>>>>> Stashed changes
     
     std::cout << "engine start-up completed." << std::endl;
 
