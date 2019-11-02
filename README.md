@@ -1,6 +1,6 @@
 # Pengine
 
-[![CircleCI](https://circleci.com/gh/LoicNassif/lightweight-physics-engine/tree/feature%2Fmaster.svg?style=svg)](https://circleci.com/gh/LoicNassif/lightweight-physics-engine/tree/feature%2Fmaster)   &nbsp;&nbsp; [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/LoicNassif/lightweight-physics-engine?branch=master&svg=true)](https://ci.appveyor.com/api/projects/status/github/LoicNassif/lightweight-physics-engine?branch=master&svg=true)
+[![CircleCI](https://circleci.com/gh/LoicNassif/lightweight-physics-engine/tree/master.svg?style=svg)](https://circleci.com/gh/LoicNassif/lightweight-physics-engine/tree/master)   &nbsp;&nbsp; [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/LoicNassif/lightweight-physics-engine?branch=master&svg=true)](https://ci.appveyor.com/api/projects/status/github/LoicNassif/lightweight-physics-engine?branch=master&svg=true)
 
 Currently tested on the following platforms,
 - `MSVC` using `MSBuild version 16.2.37902` on `Windows 8.1`.
