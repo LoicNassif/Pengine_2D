@@ -30,10 +30,12 @@ void Engine::run() {
     bool shutDownFlag = false;
     int countedFrames = 0;
 
-    // TTF_Font* f = TTF_OpenFont("../fonts/Oswald-Light.ttf", 18);
-    // if (f == nullptr) {
-        // std::cout << "Could not load font\n";
-    // }
+    #ifdef _MSC_VER
+    TTF_Font* f = TTF_OpenFont("../fonts/Oswald-Light.ttf", 18);
+    if (f == nullptr) {
+        std::cout << "Could not load font\n";
+    }
+    #endif
 
     SDL_Color colour = {255, 255, 255};
 
@@ -45,7 +47,9 @@ void Engine::run() {
             if (avgFPS > 2000000) avgFPS = 0;
             mTextureManager->clearTexture(FPStext);
             FPStext = std::to_string(avgFPS);
-            // mTextureManager->loadRenderedText(FPStext, colour, f, 5, 2);
+            #ifdef _WIN32
+            mTextureManager->loadRenderedText(FPStext, colour, f, 5, 2);
+            #endif
         }
 
         mWindowManager->update(e);
