@@ -13,3 +13,9 @@ Create and enter a `build` folder inside your project folder. Specify your gener
 ```bash
 cmake -G "Unix Makefiles" -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++ ../
 ```
+
+## Release logs
+
+### v0.2.2
+
+Compatibility with gcc and clang compilers added. CI supported added. 
