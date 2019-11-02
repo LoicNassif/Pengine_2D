@@ -1,6 +1,6 @@
 # Pengine
 
-[![CircleCI](https://circleci.com/gh/LoicNassif/lightweight-physics-engine/tree/feature%2Fgcc_compatibility.svg?style=svg)](https://circleci.com/gh/LoicNassif/lightweight-physics-engine/tree/feature%2Fgcc_compatibility) [https://ci.appveyor.com/api/projects/status/github/LoicNassif/lightweight-physics-engine?branch=master&svg=true](https://ci.appveyor.com/api/projects/status/github/LoicNassif/lightweight-physics-engine?branch=master&svg=true)
+[![CircleCI](https://circleci.com/gh/LoicNassif/lightweight-physics-engine/tree/feature%2Fgcc_compatibility.svg?style=svg)](https://circleci.com/gh/LoicNassif/lightweight-physics-engine/tree/feature%2Fgcc_compatibility)   &nbsp;&nbsp; [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/LoicNassif/lightweight-physics-engine?branch=master&svg=true)](https://ci.appveyor.com/api/projects/status/github/LoicNassif/lightweight-physics-engine?branch=master&svg=true)
 
 Currently tested on the following platforms,
 - `MSVC` using `MSBuild version 16.2.37902` on `Windows 8.1`.
