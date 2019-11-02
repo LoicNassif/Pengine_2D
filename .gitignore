@@ -1,3 +1,6 @@
 # Ignore build and vscode folder
 BasicSimulation/build/
 .vscode/
+docker_ubuntu/
+useful_docker_commands
+Dockerfile
