@@ -1,0 +1,8 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: loicnassif/ubuntu-gcc-clang
+    steps:
+      - checkout
+      - run: cd BasicSimulation/ && mkdir build && cd build/ && cmake -G "Unix Makefiles" -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++ ../ && make
