@@ -11,7 +11,7 @@ jobs:
           command: cd BasicSimulation/ && mkdir build && cd build/ && cmake -G "Unix Makefiles" -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++ ../
       - run:
           name: Build
-          command: make
+          command: cd ~/BasicSimulation/build/ make
       - store_artifacts:
           path: test-reports/
           destination: tr1
