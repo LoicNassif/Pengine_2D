@@ -4,6 +4,8 @@
 void WindowManager::startUp() {
     initWindow("Pengine", mWidth, mHeight, true);
     createRenderer();
+
+    collTree = new Quadtree(0, Vec2<int>(0,0), mWidth, mHeight);
 }
 
 void WindowManager::shutDown() {
@@ -11,6 +13,9 @@ void WindowManager::shutDown() {
     SDL_DestroyRenderer(mRenderer);
     mWindow = NULL;
     mRenderer = NULL;
+
+    collTree->clear();
+    delete collTree;
 }
 
 void WindowManager::render() {
@@ -23,13 +28,16 @@ void WindowManager::render() {
         SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 0xFF);
     }
 
+    /* Render the text */
+    engine_ptr->getTextureManager()->render(mRenderer);
+
     /* Render all objects */
     for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
         s->render(*mRenderer);
 
         if (mDebug) {
             /* Render the center for debug purposes */
-            SDL_RenderDrawPoint(mRenderer, s->getCenter().x, s->getCenter().y);
+            SDL_RenderDrawPoint(mRenderer, (int)s->getCenter().x, (int)s->getCenter().y);
         }
     }
 
@@ -43,12 +51,46 @@ void WindowManager::render() {
 
 void WindowManager::update(SDL_Event& e) {
     while (SDL_PollEvent(&e) != 0) {
-        handleEvent(e);
-    }
+        updatePaused(e);
 
-    for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
-        engine_ptr->getPhysicsManager()->moveObject(s);
-        //s->move(mWidth, mHeight, engine_ptr->getPhysicsManager()->objects);
+        if (!isPaused)
+        {
+            handleEvent(e);
+        }
+    }
+    
+    if (!isPaused) {
+        if (quadtreeOpt) {
+            collTree->clear();
+            for (Shape* s: engine_ptr->getPhysicsManager()->objects) {
+                collTree->insert(s);
+            }
+
+            std::vector<Shape*> targetObjs;
+            for (Shape *s : engine_ptr->getPhysicsManager()->objects) {
+                targetObjs.erase(targetObjs.begin(), targetObjs.end());
+                collTree->retrieve(targetObjs, s);
+
+                if (static_cast<Circle*>(shape_ptr) != s) {
+                    engine_ptr->getPhysicsManager()->moveObject(dynamic_cast<Circle*>(s), targetObjs);
+                }
+            }
+        } else {
+            for (Shape *s : engine_ptr->getPhysicsManager()->objects)
+            {
+                if (static_cast<Circle *>(shape_ptr) != s)
+                {
+                    engine_ptr->getPhysicsManager()->moveObject(s);
+                }
+            }
+        }
+    }
+}
+
+void WindowManager::updatePaused(const SDL_Event& e) {
+    /* Check for pausing input */
+    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_p) {
+        isPaused = !isPaused;
     }
 }
 
@@ -60,8 +102,8 @@ void WindowManager::handleEvent(const SDL_Event& e) {
     {
         for (Shape *s : engine_ptr->getPhysicsManager()->objects)
         {
-            if (engine_ptr->getPhysicsManager()->checkCircularCollision(s->getCenter().x, 
-                s->getCenter().y, mouse.getXPos(), mouse.getYPos(), s->getRadius()))
+            if (engine_ptr->getPhysicsManager()->checkCircularCollision((int)s->getCenter().x, 
+                (int)s->getCenter().y, mouse.getXPos(), mouse.getYPos(), s->getRadius()))
             {    
                 prevMousePos.x = mouse.getXPos();
                 prevMousePos.y = mouse.getYPos();         
@@ -81,6 +123,8 @@ void WindowManager::handleEvent(const SDL_Event& e) {
         {
             shape_ptr->setXCenter(mouse.getXPos());
             shape_ptr->setYCenter(mouse.getYPos());
+            shape_ptr->setXVel(0);
+            shape_ptr->setYVel(0);
         }
     }
     mouse.update(e);
@@ -149,7 +193,7 @@ void WindowManager::handleEvent(const SDL_Event& e) {
 
 bool WindowManager::initWindow(const char *title, int screen_width, int screen_height, bool shown) {
     // Create Window
-    mWindow = SDL_CreateWindow("Pengine", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, 
+    mWindow = SDL_CreateWindow("Pengine v0.2.1", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, 
                                 screen_height, SDL_WINDOW_SHOWN);
 
     // Grab window indentifier

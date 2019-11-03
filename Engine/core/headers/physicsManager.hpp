@@ -25,16 +25,22 @@ class PhysicsManager {
             return std::abs((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) < (r * r);
         }
         bool checkCircularCollision(Circle* a, Circle* b); 
+        void wallCircularCollision(Circle* a);
         void elasticCollision(Circle* a, Circle* b);
-        
+        void velocityVerlet(Vec2<double>& newPos, Vec2<double>& newVel, Circle* a);
+        void staticWallCollision(Circle* a, double closestPointX, double closestPointY);
+
         void moveObject(Circle* target);
         void moveObject(Shape* target);
+        void moveObject(Circle *target, const std::vector<Shape *>& targets);
 
         // Setters
-        void setTimeStep(int dt) { m_dt = dt; } 
+        void setTimeStep(double dt) { m_dt = dt; } 
+        void setGravity(double g) {m_gg = g; }
+        void setUniformDrag(double d) { m_uni_drag = d; }
 
         // Getters
-        int getTimeStep() { return m_dt; }
+        double getTimeStep() { return m_dt; }
 
         // Object list
         std::vector<Shape *> objects;
@@ -44,5 +50,11 @@ class PhysicsManager {
         const Engine* engine_ptr = nullptr;
 
         // Time-step
-        int m_dt = 2;
+        double m_dt = 1;
+
+        // Global gravitational acceleration
+        double m_gg = 0;
+
+        // Uniform drag coefficient
+        double m_uni_drag = 0;
 };

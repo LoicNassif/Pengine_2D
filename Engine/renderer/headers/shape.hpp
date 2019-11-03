@@ -15,14 +15,14 @@ class Shape {
         virtual void resize(int factor) = 0;
 
         // Setters
-        virtual void setCenter(const Vec2<int>& v) = 0;
-        virtual void setXCenter(int x) = 0;
-        virtual void setYCenter(int y) = 0;
-        virtual void setXVel(int vx) = 0;
-        virtual void setYVel(int vy) = 0;
+        virtual void setCenter(const Vec2<double>& v) = 0;
+        virtual void setXCenter(double x) = 0;
+        virtual void setYCenter(double y) = 0;
+        virtual void setXVel(double vx) = 0;
+        virtual void setYVel(double vy) = 0;
 
         // Getters
-        virtual Vec2<int> getCenter() const = 0;
+        virtual Vec2<double> getCenter() const = 0;
         virtual Vec2<double> getVelocity() const = 0;
         virtual int getMass() const = 0;
 };
