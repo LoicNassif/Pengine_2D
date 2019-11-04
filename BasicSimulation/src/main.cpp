@@ -31,7 +31,7 @@ int main()
     // Window config
     pe::setWindowDimensions(e, windowWidth, windowHeight);
     pe::setWindowColor(e, std::move(c));
-    pe::displayFPS(e);
+    // pe::displayFPS(e);
     //pe::setDEBUG(e); // paints the centers, also some extra output  
 
     // Objects config

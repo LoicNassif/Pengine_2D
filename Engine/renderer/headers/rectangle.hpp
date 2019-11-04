@@ -1,12 +1,13 @@
+// Position is top-left
+
 #pragma once
 
 #include "shape.hpp"
 
 class Rectangle : public Shape {
     public:
-        // TODO: make a vertex class to hold shape vertices
-        Rectangle(Vec2<int>& center, int p1, int p2, int p3, int p4, Vec2<double>& v, int m) : mCenter(center), mv(v), mMass(m) {}
-        ~Rectangle();
+        Rectangle(Vec2<double>&& position, Vec2<double>&& v, int m, int h, int w) : mv(v), mMass(m), mp(position), mh(h), mw(w) {}
+        ~Rectangle() {}
 
         /* Render */
         void render(SDL_Renderer &renderer) const override;
@@ -16,20 +17,24 @@ class Rectangle : public Shape {
         void resize(int factor) override;
 
         // Setters
-        void setCenter(const Vec2<int> &v) override;
-        void setXCenter(int x) override { mCenter.x = x; }
-        void setYCenter(int y) override { mCenter.y = y; }
-        void setXVel(int vx) override { mv.x = vx; }
-        void setYVel(int vy) override { mv.y = vy; }
+        void setPos(const Vec2<double>& p) override { mp = p; }
+        void setXPos(const double px) override { mp.x = px; }
+        void setYPos(const double py) override { mp.y = py; }
+        void setXVel(double vx) override { mv.x = vx; }
+        void setYVel(double vy) override { mv.y = vy; }
 
         // Getters
-        Vec2<int> getCenter() const override;
+        Vec2<double> getPosition() const override;
         Vec2<double> getVelocity() const override;
         int getMass() const override { return mMass; }
+        double getHeight() const { return mh; }
+        double getWidth() const { return mw; }  
 
     private:
-        Vec2<int> mCenter;
+        Vec2<double> mp;
         Vec2<double> mv;
-        int mr;
+
+        double mh;
+        double mw;
         int mMass;
 };

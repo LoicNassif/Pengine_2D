@@ -1,6 +1,7 @@
 #pragma once
 #include "../core/headers/engine.hpp"
 #include "../renderer/headers/circle.hpp"
+#include "../renderer/headers/rectangle.hpp"
 #include <json.hpp>
 #include <utility>
 #include <fstream>
@@ -41,16 +42,24 @@ namespace pe {
 
             for (json& obj : objs) {
                 std::string shape_type = obj["shape"];
-                int size = obj["size"];
                 int x_pos = obj["x_pos"];
                 int y_pos = obj["y_pos"];
                 int x_vel = obj["x_vel"];
                 int y_vel = obj["y_vel"];
                 int mass = obj["mass"];
 
-                if (shape_type == "Circle" || shape_type == "circle") {
+                if (shape_type == "Circle" || shape_type == "circle")
+                {
+                    int size = obj["size"];
                     Circle *c = new Circle(Vec2<double>(x_pos, y_pos), size, Vec2<double>(x_vel, y_vel), mass);
                     pushShape(e, c);
+                }
+
+                if (shape_type == "Rectangle" || shape_type == "rectangle" || shape_type == "rec") {
+                    int h = obj["height"];
+                    int w = obj["width"];
+                    Rectangle *r = new Rectangle(Vec2<double>(x_pos, y_pos), Vec2<double>(x_vel, y_vel), mass, h, w);
+                    pushShape(e, r);
                 }
             }
         }

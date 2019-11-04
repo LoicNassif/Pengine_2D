@@ -37,7 +37,7 @@ void WindowManager::render() {
 
         if (mDebug) {
             /* Render the center for debug purposes */
-            SDL_RenderDrawPoint(mRenderer, (int)s->getCenter().x, (int)s->getCenter().y);
+            SDL_RenderDrawPoint(mRenderer, (int)s->getPosition().x, (int)s->getPosition().y);
         }
     }
 
@@ -71,8 +71,10 @@ void WindowManager::update(SDL_Event& e) {
                 targetObjs.erase(targetObjs.begin(), targetObjs.end());
                 collTree->retrieve(targetObjs, s);
 
-                if (static_cast<Circle*>(shape_ptr) != s) {
-                    engine_ptr->getPhysicsManager()->moveObject(dynamic_cast<Circle*>(s), targetObjs);
+                if (shape_ptr != s) {
+                    if (Circle* sCircle = dynamic_cast<Circle*>(s)) {
+                        engine_ptr->getPhysicsManager()->moveObject(sCircle, targetObjs);
+                    }
                 }
             }
         } else {
@@ -95,6 +97,24 @@ void WindowManager::updatePaused(const SDL_Event& e) {
 }
 
 void WindowManager::handleEvent(const SDL_Event& e) {
+    // Check keyboard input
+    Shape *player = engine_ptr->getPhysicsManager()->objects[0];
+    if (e.type == SDL_KEYDOWN)
+    {
+        switch (e.key.keysym.sym) {
+            // move right
+            case SDLK_d:
+                player->setXPos(player->getPosition().x + 2);
+                player->setXVel(std::abs(player->getVelocity().x));
+                break;
+            // move left
+            case SDLK_a:
+                player->setXPos(player->getPosition().x - 2);
+                player->setXVel(-std::abs(player->getVelocity().x));
+                break;
+        }
+    }
+
     mouse.update(e);
 
     /* Check mouse input */
@@ -102,15 +122,17 @@ void WindowManager::handleEvent(const SDL_Event& e) {
     {
         for (Shape *s : engine_ptr->getPhysicsManager()->objects)
         {
-            if (engine_ptr->getPhysicsManager()->checkCircularCollision((int)s->getCenter().x, 
-                (int)s->getCenter().y, mouse.getXPos(), mouse.getYPos(), s->getRadius()))
-            {    
-                prevMousePos.x = mouse.getXPos();
-                prevMousePos.y = mouse.getYPos();         
-                shape_ptr = s;
-                shape_ptr->setXVel(0);
-                shape_ptr->setYVel(0);
-                break;
+            if (Circle *sCircle = dynamic_cast<Circle *>(s)) {
+                if (engine_ptr->getPhysicsManager()->checkCircularCollision((int)sCircle->getPosition().x, 
+                    (int)sCircle->getPosition().y, mouse.getXPos(), mouse.getYPos(), sCircle->getRadius()))
+                {    
+                    prevMousePos.x = mouse.getXPos();
+                    prevMousePos.y = mouse.getYPos();         
+                    shape_ptr = s;
+                    shape_ptr->setXVel(0);
+                    shape_ptr->setYVel(0);
+                    break;
+                }
             }
         }
     }
@@ -121,8 +143,8 @@ void WindowManager::handleEvent(const SDL_Event& e) {
     {
         if (shape_ptr != nullptr)
         {
-            shape_ptr->setXCenter(mouse.getXPos());
-            shape_ptr->setYCenter(mouse.getYPos());
+            shape_ptr->setXPos(mouse.getXPos());
+            shape_ptr->setYPos(mouse.getYPos());
             shape_ptr->setXVel(0);
             shape_ptr->setYVel(0);
         }

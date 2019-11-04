@@ -44,10 +44,10 @@ class Quadtree {
 
             // Handle if the shape is a circle
             if (Circle* tCircle = dynamic_cast<Circle*>(target)) {
-                double left_bnd = tCircle->getCenter().x - tCircle->getRadius(); // Left boundary
-                double right_bnd = tCircle->getCenter().x + tCircle->getRadius(); // Right boundary
-                double bottom_bnd = tCircle->getCenter().y + tCircle->getRadius(); // Bottom boundary
-                double top_bnd = tCircle->getCenter().y - tCircle->getRadius(); // Top boundary
+                double left_bnd = tCircle->getPosition().x - tCircle->getRadius(); // Left boundary
+                double right_bnd = tCircle->getPosition().x + tCircle->getRadius(); // Right boundary
+                double bottom_bnd = tCircle->getPosition().y + tCircle->getRadius(); // Bottom boundary
+                double top_bnd = tCircle->getPosition().y - tCircle->getRadius(); // Top boundary
 
                 // Left half
                 if (left_bnd > init_point.x && right_bnd < vMidpoint) {

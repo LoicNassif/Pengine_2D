@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "../../renderer/headers/circle.hpp"
+#include "../../renderer/headers/rectangle.hpp"
 #include "engine.hpp"
 
 class Engine;
@@ -24,6 +25,8 @@ class PhysicsManager {
         bool checkCircularCollision(int x1, int y1, int x2, int y2, int r) {
             return std::abs((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) < (r * r);
         }
+        bool checkCircleLineCollision(Circle *c, Vec2<double> p1, Vec2<double> p2);
+        bool checkCircleRectangleCollision(Circle *c, Rectangle *r);
         bool checkCircularCollision(Circle* a, Circle* b); 
         void wallCircularCollision(Circle* a);
         void elasticCollision(Circle* a, Circle* b);
